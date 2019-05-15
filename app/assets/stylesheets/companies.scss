@@ -1,0 +1,303 @@
+// Place all the styles related to the Companies controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+td#service_green {
+    background-color: #D9EAD3;
+}
+
+td#service_red {
+    background-color: #F4CCCC;
+}
+
+td#service_yellow {
+    background-color: #FFF2CC;
+}
+
+.select2.select2-container.select2-container--default {
+    height: 40px !important;
+}
+
+.select2-selection.select2-selection--single {
+    height: 40px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 40px !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 40px !important;
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 20px;
+}
+/* Absolute Center CSS Spinner */
+.loading {
+  position: fixed;
+  z-index: 999;
+  width:100%;
+  height:100%;
+ }
+
+/* Transparent Overlay */
+.loading:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.3);
+}
+
+/* :not(:required) hides these rules from IE9 and below */
+.loading:not(:required) {
+  /* hide "loading..." text */
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+.loading:not(:required):after {
+  content: '';
+  display: block;
+  font-size: 4px;
+  width: 1em;
+  height: 1em;
+  margin-top: -0.5em;
+  margin-left:50%;
+  margin-right:50%;
+  -webkit-animation: spinner 1500ms infinite linear;
+  -moz-animation: spinner 1500ms infinite linear;
+  -ms-animation: spinner 1500ms infinite linear;
+  -o-animation: spinner 1500ms infinite linear;
+  animation: spinner 1500ms infinite linear;
+  border-radius: 0.5em;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.5) -1.5em 0 0 0, rgba(0, 0, 0, 0.5) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+  box-shadow: rgba(0, 0, 0, 0.75) 1.5em 0 0 0, rgba(0, 0, 0, 0.75) 1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) 0 1.5em 0 0, rgba(0, 0, 0, 0.75) -1.1em 1.1em 0 0, rgba(0, 0, 0, 0.75) -1.5em 0 0 0, rgba(0, 0, 0, 0.75) -1.1em -1.1em 0 0, rgba(0, 0, 0, 0.75) 0 -1.5em 0 0, rgba(0, 0, 0, 0.75) 1.1em -1.1em 0 0;
+}
+
+/* Animation */
+
+@-webkit-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-moz-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+@keyframes spinner {
+  0% {
+    -webkit-transform: rotate(0deg);
+    -moz-transform: rotate(0deg);
+    -ms-transform: rotate(0deg);
+    -o-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+#bt_cancel, #vbt_cancel{
+  margin-right:20px;
+}
+#fcom_submit:disabled, #vfcom_submit:disabled {
+    background-color: #2199e8;
+}
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  border-color: #000 transparent transparent transparent !important;
+}
+
+.select2-container--default .select2-results__option--highlighted[aria-selected] {
+    background-color: #F07746 !important;
+    color: white;
+}
+
+.requirements_link{
+  float: left;
+  padding-right: 20px;
+}
+
+h4#color_compliant{
+  color: #6AAD84
+}
+
+h4#color_noncompliant{
+  color: #E41E26
+}
+
+.title_bg{
+ background-color: #dddddd;
+}
+
+.req_missing_color{
+  color: #ff0000
+}
+
+.paginate_color_black{
+  color: #000000
+}
+
+.community_name li{
+  list-style-type: none;
+}
+.small-4.columns.count h3{
+  float: none !important;
+}
+
+.color_code_score {
+  color: #3fa863
+}
+.small-4.columns.score{
+  padding-left: 20px;
+}
+.small-9.columns.person-name.title_bg h6{
+  margin-top: 0.5rem !important;
+}
+.callout.success.care_hours{
+  left:260px;
+}
+
+//Staff List
+div.dataTables_wrapper div.dataTables_processing {
+  top: 50px;
+}
+
+.dataTables_filter {
+  label {
+    font-size: .9em;
+  }
+}
+
+table#report_comm_vendors {
+  font-size: .9em;
+  .large-checkbox {
+    transform: scale(1.5);
+    margin-left:.75em;
+  }
+  input[type=checkbox] {
+    @extend .large-checkbox;
+  }
+}
+.ra-multiselect .ra-multiselect-center {
+    width: 30px;
+    padding-top: 15px;
+    text-align: center;
+}
+.ra-multiselect .ra-multiselect-center .ui-icon {
+    margin: 5px auto;
+}
+.ra-multiselect .ui-icon {
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: top;
+}
+.ra-multiselect .ra-multiselect-center .ui-icon {
+    margin: 5px auto;
+}
+.ui-icon {
+    width: 16px;
+    height: 16px;
+}
+.ra-multiselect .ui-icon.ui-icon-circle-triangle-w {
+    background-position: 0px -32px !important;
+    background-image: url(/images/msicon_sprite.png);
+}
+.ra-multiselect .ui-icon.ui-icon-circle-triangle-e {
+    background-position: -16px -32px !important;
+    background-image: url(/images/msicon_sprite.png);
+}
+.ra-multiselect .ra-multiselect-column .wrapper select {
+    height: auto;
+    min-height: 120px;
+    margin-bottom: 5px;
+    min-width: 200px;
+}
+.mcom_select,.mast_select{
+  margin: 0 0 0rem; 
+}
+.comlabels table{
+  border:1px solid #ccc;
+}
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857;
+    color: #555555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+}
+tr{
+   border-bottom: 1px solid #f1f1f1;
+
+}
+.bg_highlight{
+    background-color:#add8e6 !important;
+    border-bottom: 1px solid #f1f1f1;
+}
+
+.mhgt{
+    height:50px;
+    overflow:hidden;
+    /*display: table-cell;
+    vertical-align: middle;*/
+}

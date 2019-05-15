@@ -1,0 +1,154 @@
+@import "global";
+
+#report {
+  .tabs {
+    background: #d9d9d9;
+    a {
+      color: $accushield-blue;
+      font-size: 1.2em;
+    }
+    a:hover {
+      background: white;
+    }
+    li.is-active {
+      a {
+        color: white;
+      }
+      a:hover {
+        background: $accushield-green;
+      }
+    }
+  }
+  #grade-callout {
+    p.compliance-header {
+      font-size: 1.3em;
+      span {
+        color: #3fa863;
+      }
+    }
+  }
+  h1 {
+    font-size: 4em;
+  }
+
+  h6 {
+    font-family: "Cast Bold", "Helvetica Neue", Sans-Serif;
+  }
+
+  small {
+    color:    #646464;
+  }
+
+  #charts {
+    width: 400px;
+    height: 400px;
+  }
+
+  #reports-submit {
+    margin-top: 7px;
+  }
+
+  #community-grade {
+    padding: 0.5em;
+    color:            white;
+    font-weight:      bold;
+    h1 {
+      background: $accushield-blue;
+    }
+    h3 {
+      background: $accushield-green;
+    }
+  }
+
+  .header-nums {
+    .columns {
+      border-right: 1px solid lightgray;
+    }
+    .columns:last-of-type {
+      border:none;
+    }
+    h2 {
+      font-size: 50px;
+      color: $accushield-blue;
+    }
+    h2.alt {
+      color: $accushield-green
+    }
+  }
+
+  canvas#home-health-chart, canvas#hospice-chart {
+    margin-top:     36px;
+  }
+}
+
+.detailReport {
+  .meta {
+    border-left: 1px solid lightgray;
+  }
+  h2 {
+    color: $accushield-blue;
+  }
+  #count-headers {
+    margin-top: 1em;
+    h3 {
+      color: $accushield-green;
+    }
+  }
+  .ledger_holder {
+    margin-bottom: 1em;
+  }
+  .subheader {
+    margin-top: 0;
+  }
+  .green {
+    color: green;
+  }
+  .blue {
+    color: blue;
+  }
+  .black {
+    color: black;
+  }
+  .red {
+    color: red;
+  }
+  .ledger {
+    .headers {
+      font-weight: bold;
+    }
+  }
+  .vendor-info {
+    display: flex;
+    flex-direction: column;
+    .phone {
+      display: flex;
+      justify-content: flex-start;
+      .subheader {
+        margin-right: 10px;
+      }
+    }
+    .status {
+      display: flex;
+      justify-content: flex-start;
+      .subheader {
+        margin-right: 10px;
+      }
+    }
+  }
+}
+
+.large-serif {
+  font-family: $font-face-header;
+  //a {
+    font-size: 1.8em;
+  //}
+}
+
+a.hot-leads {
+  font-size: 1.40em;
+  color: $accushield-red;
+  //border-top: 1px dashed $accushield-red;
+  border-bottom: 1px dashed $accushield-red;
+  //padding: .2em;
+  //display: block;
+}

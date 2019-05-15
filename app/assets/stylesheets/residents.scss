@@ -1,0 +1,121 @@
+// Place all the styles related to the Residents controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "global";
+
+
+table.resource_index_table {
+  a {
+    margin: 0 auto;
+  }
+  i {
+    font-size:  28px;
+  }
+  margin-top: 2em;
+}
+
+
+.icon-delete {
+  color: red;
+  :hover {
+    color: darkred;
+  }
+}
+
+form.simple_form .form-actions {
+  a, input {
+    margin-right: .5em;
+  }
+}
+
+div#import-resident-callout {
+  li {
+    font-size: 0.85em;
+  }
+}
+
+div#alert-config-row {
+  img {
+    width: 40px;
+    height: 40px;
+    margin: -15px 0 0 0;
+    display: none;
+  }
+  #status {
+    color: $accushield-green-dark;
+    display: none;
+  }
+}
+
+#alert-setup-link {
+  span {
+    color: darkblue;
+  }
+}
+
+.status_checkbox{
+  margin: 0 15px;
+}
+
+.status_leadbox{
+  margin: 0 8px 0 15px;
+}
+
+.rep_expbutton{
+  margin-top: 12px;
+  float:right;
+  margin-right:10px;
+}
+
+input#submit-mass-assign {
+  padding: 9px;
+}
+
+.pagination a, .pagination span.current, .pagination span.gap {
+    float: left;
+    padding: 0 14px;
+    line-height: 38px;
+    text-decoration: none;
+    background-color: white;
+    /*border: 1px solid #DDD;*/
+    border-left-width: 0;
+}
+li.active a{
+    background-color: #DDD;
+}
+#rescpag .dataTables_paginate, #rescpag .dataTables_info, #rescpag .dataTables_length, #rescpag .dataTables_filter{  
+  display:none;
+}
+.entry-custom{
+    margin-top:10px;
+}
+.pagination {
+    /*border-left: 1px solid #ddd;*/
+    margin-top:6px;
+    float:right;
+    .first{
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .prev {
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .page{
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .next{
+        padding : 0;
+        float: none;
+        border: none;
+    }
+    .last{
+        padding : 0;
+        float: none;
+        border: none;
+    }
+}

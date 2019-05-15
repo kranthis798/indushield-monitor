@@ -1,0 +1,44 @@
+@import "global";
+
+form#new_visit, form.edit_visit {
+  a.accordion-title {
+    font-size: 1.75em;
+    font-family: $font-face-header;
+  }
+  label {
+    font-weight: bold;
+  }
+
+  fieldset {
+    background: white;
+  }
+
+  legend {
+    padding: .5em;
+    border: 1px solid lightgrey;
+    border-bottom: none;
+  }
+}
+
+#vendor-result {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #00085F;
+  text-transform: capitalize;
+}
+
+.flatpickr-calendar {
+  -webkit-box-shadow: 10px 10px 0px 0px rgba(199,199,199,.55);
+  -moz-box-shadow: 10px 10px 0px 0px rgba(199,199,199,.55);
+  box-shadow: 10px 10px 0px 0px rgba(199,199,199,.55);
+  font-family: $font-face-body;
+}
+
+.flatpickr-current-month {
+  span.cur-month {
+    font-family: $font-face-header;
+  }
+  input.cur-year {
+    margin-left: 4px;
+  }
+}

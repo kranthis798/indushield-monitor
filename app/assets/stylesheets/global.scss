@@ -1,0 +1,270 @@
+@font-face {
+  font-family: 'Cast Bold';
+  src: font-url("cast-bold-webfont.eot");
+  src: font-url("cast-bold-webfont.eot?#iefix") format("embedded-opentype"),
+  font-url("cast-bold-webfont.svg#cast-bold-webfont") format("svg"),
+  font-url("cast-bold-webfont.woff") format("woff"),
+  font-url("cast-bold-webfont.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cast Regular';
+  src: font-url("cast-regular-webfont.eot");
+  src: font-url("cast-regular-webfont.eot?#iefix") format("embedded-opentype"),
+  font-url("cast-regular-webfont.svg#cast-regular-webfont") format("svg"),
+  font-url("cast-regular-webfont.woff") format("woff"),
+  font-url("cast-regular-webfont.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Cast Light';
+  src: font-url("cast-light-webfont.eot");
+  src: font-url("cast-light-webfont.eot?#iefix") format("embedded-opentype"),
+  font-url("cast-light-webfont.svg#cast-light-webfont") format("svg"),
+  font-url("cast-light-webfont.woff") format("woff"),
+  font-url("cast-light-webfont.ttf") format("truetype");
+  font-weight: lighter;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sentinel Bold';
+  src: font-url("Sentinel-Bold.eot");
+  src: font-url("Sentinel-Bold.eot?#iefix") format("embedded-opentype"),
+  font-url("Sentinel-Bold.svg#Sentinel-Bold") format("svg"),
+  font-url("Sentinel-Bold.ttf") format("truetype");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sentinel Book';
+  src: font-url("Sentinel-Book.eot");
+  src: font-url("Sentinel-Book.eot?#iefix") format("embedded-opentype"),
+  font-url("Sentinel-Book.svg#Sentinel-Book") format("svg"),
+  font-url("Sentinel-Book.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Sentinel Light';
+  src: font-url("Sentinel-Light.eot");
+  src: font-url("Sentinel-Light.eot?#iefix") format("embedded-opentype"),
+  font-url("Sentinel-Light.svg#Sentinel-Light") format("svg"),
+  font-url("Sentinel-Light.ttf") format("truetype");
+  font-weight: lighter;
+  font-style: normal;
+}
+
+
+//Variables
+$font-face-body: "Cast Regular", "Helvetica Neue", sans-serif;
+$font-face-header: "Sentinel Book", "Georgia", serif;
+$accushield-blue: #384275;
+$accushield-green: #3fa863;
+$accushield-green-dark: #25633a;
+$accushield-red: #DA1E1E;
+.reveal-modal-bg {
+  display: none!important;
+}
+
+main {
+  margin: 1em;
+  padding: 2em;
+  background-color: #eee;
+  font-family: $font-face-body;
+
+  label, input, select {
+    font-size: 1.2em;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Sentinel Book", "Georgia", serif;
+  }
+}
+
+.authform {
+  padding-top: 30px;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 2em;
+  border: 10px solid lightgray;
+  background: white;
+}
+
+.top-bar {
+  ul.menu {
+    a {
+      margin-right: .3em;
+    }
+  }
+}
+
+#env-banner-dev {
+  background: red;
+  font-weight: bold;
+  color: white;
+  padding: .5em .5em .1em .5em;
+  text-align: center;
+}
+
+#env-banner-qa {
+  background: #3fa863;
+  font-weight: bold;
+  color: white;
+  padding: .5em .5em .1em .5em;
+  text-align: center;
+}
+
+small.error {
+  padding: 0.5em;
+  color: white;
+  background: red;
+}
+
+.red {
+  color: $accushield-red;
+}
+
+.border-right {
+  border-right: 1px solid lightgrey;
+}
+
+i.fi-info {
+  font-size: 1.8em;
+  color: #2199e8;
+  display: block;
+  margin: 0 .3em;
+}
+
+.tabs {
+  background: #d9d9d9;
+  a {
+    font-size: 1.2em;
+  }
+  .tabs-title.is-active {
+    a {
+      color: white;
+    }
+  }
+}
+
+.tabbed-toolbar {
+  margin-bottom: .5em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid lightgray;
+}
+
+
+.button-radius {
+  border-radius: 8px 8px 0px 0px;
+  background-color: #3f4b80;
+}
+
+.topbar {
+  padding: 0.5rem;
+}
+
+.image-width{
+  content:none
+}
+
+.headerContainer {
+  height: 60px;
+  background-color: #eaeaea;
+}
+
+.is-right-arrows a::after  {
+  display: none !important;
+
+}
+
+
+.hideleftmenu {
+  top: 100% !important;
+  left: auto !important;
+  right:0 !important;
+}
+
+.menupadding{
+  padding:1px 1px;
+}
+
+.menuli{
+  padding: 0.7rem 1.8rem !important;
+}
+
+li.is-submenu-item:hover {
+  background-color:#eee;
+}
+
+li.is-submenu-item li:hover{
+  background-color:#eee;
+}
+
+.main-tab-active {
+  background-color:green !important;
+}
+
+.staff-member-headers {
+  font-family: "Sentinel Book", "Georgia", "serif";
+  font-size: 2.5rem;
+  position: relative;
+  top: 8px;
+}
+
+.staff-member-hr {
+  margin: 10px  10px !important
+}
+
+
+.squaredThree {
+  width: 20px;
+  position: relative;
+  margin: 20px auto;
+  label {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: linear-gradient(top, #222 0%, #45484d 100%);
+    border-radius: 4px;
+    box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,.4);
+    &:after {
+      content: '';
+      width: 9px;
+      height: 5px;
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      border: 3px solid #fcfff4;
+      border-top: none;
+      border-right: none;
+      background: transparent;
+      opacity: 0;
+      transform: rotate(-45deg);
+    }
+    &:hover::after {
+      opacity: 0.3;
+    }
+  }
+  .squareCheckbox {
+    visibility: hidden;
+    &:checked + label:after {
+      opacity: 1;
+    }    
+  }
+}
+  .showactive {
+  position: relative !important;
+  top: 140px !important;
+  left: 400px !important;
+  z-index: 9999;
+  }

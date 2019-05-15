@@ -1,0 +1,29 @@
+// Place all the styles related to the Vendors controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.cred {
+  margin: 1em 2em;
+  label {
+    font-size: 1.2em;
+  }
+}
+
+a.vendor_name {
+  width: 240px;
+}
+
+a#continue_link {
+  display: block;
+  margin-top: 1em;
+}
+
+li.active {
+  background-color: #fff;
+}
+
+.vendor_row {
+  .vendor_info {
+    font-size: .8em;
+  }
+}

@@ -1,0 +1,355 @@
+$(function() {
+  var nowTemp = new Date();
+  var now = new Date(nowTemp.getFullYear(), nowTemp.getMonth(), nowTemp.getDate(), 0, 0, 0, 0);
+  var startPicker = $("#start_picker").fdatepicker({});
+  var endPicker = $("#end_picker").fdatepicker({});
+  $('#community_avatar').hide();
+  $("#ftype_lab").hide();
+  var avatar = $('#community_avatar');
+  
+  avatar.change(function() {
+     var ext = this.value.match(/\.(.+)$/)[1];
+      if(ext){
+        switch (ext) {
+            case 'jpg':
+            case 'jpeg':
+                $('#upload-sub-btn').attr('disabled', false);
+                $("#ftype_lab").hide();
+                return $('#file-display').val($(this).val().replace(/^.*[\\\/]/, ''));
+                break;
+            default:
+                $("#ftype_lab").show();
+                $("#ftype_lab").html("Please upload jpg images only");
+                $('#upload-sub-btn').attr('disabled', true);("");
+                $('#file-display').val("");
+                return false;
+                //return $('#file-display').val('');
+        }
+      }else{
+        $("#ftype_lab").show();
+        $("#ftype_lab").html("Please upload jpg images only");
+        $('#upload-sub-btn').attr('disabled', true);
+         return false;
+      }
+      
+  });
+  $('h1.company-info-header').click(function (event) {
+    event.preventDefault();
+    if ($('.company-info-header > i').hasClass('fa-chevron-down')) {
+      $('.company-info-header > i').removeClass('fa-chevron-down').addClass('fa-chevron-right')
+    }else {
+      $('.company-info-header > i').removeClass('fa-chevron-right').addClass('fa-chevron-down')
+    }
+    $('div.company-info-body').toggle();
+  });
+  $("h1.requirements-header").click(function(event) {
+    event.preventDefault();
+    if ($('.requirements-header > i').hasClass('fa-chevron-down')) {
+      $('.requirements-header > i').removeClass('fa-chevron-down').addClass('fa-chevron-right')
+    }else {
+      $('.requirements-header > i').removeClass('fa-chevron-right').addClass('fa-chevron-down')
+    }
+    $("div.requirements-body").toggle();
+  });
+  $("h1.badge-tape-header").click(function(event) {
+    event.preventDefault();
+    if ($('.badge-tape-header > i').hasClass('fa-chevron-down')) {
+      $('.badge-tape-header > i').removeClass('fa-chevron-down').addClass('fa-chevron-right')
+    }else {
+      $('.badge-tape-header > i').removeClass('fa-chevron-right').addClass('fa-chevron-down')
+    }
+    $("div.badge-tape-body").toggle();
+  });
+  $("h1.billing-header").click(function(event) {
+    event.preventDefault();
+    if ($('.billing-header > i').hasClass('fa-chevron-down')) {
+      $('.billing-header > i').removeClass('fa-chevron-down').addClass('fa-chevron-right')
+    }else {
+      $('.billing-header > i').removeClass('fa-chevron-right').addClass('fa-chevron-down')
+    }
+    $("div.billing-body").toggle();
+  });
+  $("#resident_alert_table").DataTable({
+    "order": [[1, "asc"]],
+    "iDisplayLength": 100,
+    "aoColumnDefs": [
+      {"bSortable": false, "aTargets": [8]}
+    ],
+    "columns": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {"orderDataType": "dom-checkbox"},
+      {"orderDataType": "dom-checkbox"},
+      null
+    ],
+    "language": {
+      "lengthMenu": "Show: _MENU_"
+    }
+  });
+
+  $("#staff_alert_table").DataTable({
+    "aoColumnDefs": [
+      {'bSortable': false, 'aTargets': [7]}
+    ],
+    "columns": [
+      null,
+      null,
+      null,
+      null,
+      null,
+      null,
+      {"orderDataType": "dom-checkbox"},
+      null
+    ],
+    "language": {
+      "lengthMenu": "Show: _MENU_"
+    }
+  });
+
+  //Building selector, evac report
+  $("select#community_list_evac").change(function(evt) {
+    var communityID = evt.currentTarget.value;
+    $("#evac-report-status").html("Finding this community...");
+    window.location.href = "/evac_report?community_id="+communityID;
+  });
+
+  //Building selector, evac report
+  $("select#building_list").change(function(evt) {
+      var buildingID = evt.currentTarget.value;
+      $("#evac-report-status").html("Generating report for this building...");
+      window.location.href = "/evac_report?building_id="+buildingID;
+  });
+
+  //Enable/disable Community-level waiver override
+  $("#community_do_override_waiver").change(function(evt) {
+      var waiver = $('#community_waiver');
+      waiver.attr("disabled", !waiver.attr("disabled"));
+  });
+  $("#community_do_override_cms_prompt").change(function(evt) {
+    var field = $('#community_cms_prompt');
+    field.attr("disabled", !field.attr("disabled"));
+  });
+
+  $(".device-building").change(function(evt) {
+      var buildingID = evt.currentTarget.value;
+      var deviceID = evt.currentTarget.dataset.deviceId;
+      $.post('/link_building_to_device', {building_id:buildingID, device_id:deviceID}, function(evt){
+         //do nothing for now. maybe update a status?
+      });
+  });
+
+  $(".photos-modal").click(function(evt) {
+      var dataset = evt.currentTarget.dataset;
+      var eventID = dataset.eventId;
+      var year = dataset.year;
+      var month = dataset.month;
+      var day = dataset.day;
+      var vendorName = dataset.vendorName;
+      var atTime = dataset.atTime;
+
+      var $modal = $('#visit-photo-modal');
+
+      //The contents of this URL will be loaded into the modal automatically.
+      console.log("Finding photos for "+eventID);
+      $.ajax('/load_visit_photos?event_id='+eventID+"&year="+year+"&month="+month+"&day="+day+"&vendor_name="+vendorName+"&at_time="+atTime)
+          .done(function(resp) {
+
+              $modal.html(resp);
+              $('img').one('error', function(){
+                  $(this).attr('src', '<%= asset_path('missing-image.png') %>');
+              });
+              $modal.foundation('open');
+          });
+  });
+
+  $("table#visits").DataTable({
+    "paging":false,
+     "bInfo" : false,
+    "iDisplayLength": 50,
+    "order": [[ 0, "desc" ]],
+    "columnDefs": [
+    { "orderable": false, "targets": [11] }
+    ],
+    "language": {
+      "lengthMenu": "Show: _MENU_"
+    }
+  });
+
+  $("#building_table").DataTable({
+      "iDisplayLength": 10,
+      "bPaginate": false,
+      "aoColumnDefs": [
+          { "bSortable": false, "aTargets": [ 5,6 ] }
+      ],
+      "language": {
+          "lengthMenu": "Show: _MENU_"
+      }
+  });
+
+  $("#devices_table").DataTable({
+      "iDisplayLength": 10,
+      "language": {
+          "lengthMenu": "Show: _MENU_"
+      }
+  });
+
+  $("table#sign_outs").DataTable({
+    "paging":false,
+     "bInfo" : false,
+    "iDisplayLength": 50,
+    "order": [[ 0, "desc" ]],
+    "columnDefs": [
+    { "orderable": false, "targets": [9] }
+    ],
+    "language": {
+      "lengthMenu": "Show: _MENU_"
+    }
+  });
+
+  var visit_status_table_config = {
+      "order": [[0, "asc"]],
+      "aoColumnDefs": [
+          {"bSortable": false, "aTargets": [4,5]}
+      ],
+      "columns": [
+          null,
+          null,
+          null,
+          {"orderDataType": "dom-checkbox"},
+          null,
+          null
+      ],
+      "language": {
+          "lengthMenu": "Show: _MENU_"
+      }
+  };
+
+  $("#visit_alerts_table").DataTable(visit_status_table_config);
+  $("#status_alerts_table").DataTable(visit_status_table_config);
+
+  $('#xml-preview-switch').change(function(evt) {
+    var non_cms_rows = $("table#visits tbody tr").filter(function() {
+      return  $(this).attr("data-service-id") < 11 || $(this).attr("data-service-id") == "---";
+    });
+    console.log("Found "+non_cms_rows.length+" non-CMS rows to toggle");
+
+    var status_div = $("div#visits_info");
+    var old_count = parseInt(status_div.html().split(" ")[3]);
+    var new_count;
+
+    if ( evt.target.checked ) {
+      console.log("Enabling XML Preview");
+      non_cms_rows.each(function() { $(this).hide(); });
+      new_count = old_count - non_cms_rows.length;
+    }
+    else {
+      console.log("Disabling XML Preview");
+      non_cms_rows.each(function() { $(this).show(); });
+      new_count = old_count + non_cms_rows.length;
+    }
+
+    //Disabled count stuff because datatables automatically updates that field during a sort.
+    // status_div.html("Showing 1 to "+new_count+" of "+new_count+" entries");
+  });
+
+  //For reference, this combs the view for what's currently in the table.
+
+  //$('#csv-export-link').click(function(){
+  //  var rows = $('table#visits tbody tr');
+  //  console.log("Found "+rows.length+" rows");
+  //  var allRows = [];
+  //  rows.each(function(index) {
+  //    var cells = $(this).find("td");
+  //    var rowValues = $.map(cells, function(val, i){
+  //      if ( i < 10 ) {
+  //        return $(val).html().trim();
+  //      }
+  //    });
+  //    allRows.push(rowValues);
+  //  });
+  //
+  //  //use our controller action to find this visitor
+  //  var url = "/export_ledger_csv.html";
+  //  $.post(url, {"rows":allRows});
+  //});
+    window.openCommunityModal = function(title, lead, continueGetURL, type) {
+      var modal = $("#community_field_modal");
+      var searchField = $("#search_field");
+      var searchLink = $("#search_link");
+      var search_list = $(".search_list");
+      searchField.val("");
+      search_list.html("");
+      searchLink.unbind('click');
+
+      modal.contents("h3").html(title);
+      modal.contents("p").html(lead);
+      if (type === "vendor"){
+        searchField.attr("placeholder", "Search First Name or Last Name or Phone Number");
+      }else {
+        searchField.attr("placeholder", "Search First Name or Last Name");
+      }
+      //define continue path
+      searchLink.on("click", function(){
+        $(".loader").css("display","inline-block");
+        $.ajax(continueGetURL+"&search_text="+searchField.val())
+            .done(function(resp) {
+                var obj = jQuery.parseJSON( resp.report );
+                var items = [];
+                search_list.html("");
+                if (obj.length === 0){
+                  $(".loader").css("display","none");
+                  search_list.append("<h4>Please try a different search or date range.</h4>");
+                }else {
+                  if (resp.type === "vendor"){
+                  $.each(obj, function( key, val ) {
+                  items.push( "<h4><li><a href=/reports/"+resp.type+"?sugar_id="+val.record_id+">"+val.record_name+" : "+val.phone+"</a></li></h4>" );
+                  });
+                }else{
+                  $.each(obj, function( key, val ) {
+                  items.push( "<h4><li><a href=/reports/"+resp.type+"?sugar_id="+val.record_id+">"+val.record_name+"</a></li></h4>" );
+                  });
+                }
+                  $.each(items, function(key, arr_val){
+                    search_list.append(arr_val);
+                  });
+                  $(".loader").css("display","none");
+                }
+                modal.foundation('open');
+            })
+            .fail(function() {
+                $(".loader").css("display","none");
+                search_list.html("");
+                search_list.append("<h4>Please try a different search or date range.</h4>");
+              });
+      });
+
+      //Open up the modal.
+      modal.foundation("open");
+    }
+  $("#upload-logo-btn").click(function() {
+     $('#community_avatar').click();
+     return false;
+  });
+  $('#upload-sub-btn').click(function() {
+    if($("#act").val()!='delete'){
+      if($('#file-display').val()==''){
+        $("#ftype_lab").show();
+        $("#ftype_lab").html("Please upload jpg images only");
+        $('#upload-sub-btn').attr('disabled', true);
+         return false;
+      }
+      return true;
+    }
+    return true;
+  });
+  $('.logo-show-image .closes').click(function() {
+    if(confirm("Are you sure you want to delete this logo?")){
+      $("#act").val("delete");
+      $('#upload-sub-btn').click();
+    }
+  });
+});

@@ -1,0 +1,699 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API V1",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/kiosk/device": {
+      "get": {
+        "summary": "Device details",
+        "tags": [
+          "Kiosk"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "serial",
+            "in": "query",
+            "type": "string",
+            "required": true,
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "date_entered": {
+                      "type": "string"
+                    },
+                    "date_modified": {
+                      "type": "string"
+                    },
+                    "company_id": {
+                      "type": "integer"
+                    },
+                    "building_id": {
+                      "type": "integer"
+                    },
+                    "building_name": {
+                      "type": "string"
+                    },
+                    "identifier": {
+                      "type": "string"
+                    },
+                    "identifier_type": {
+                      "type": "string"
+                    },
+                    "printer_status_c": {
+                      "type": "string"
+                    },
+                    "printer_conn_c": {
+                      "type": "string"
+                    },
+                    "status_c": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/kiosk/company": {
+      "get": {
+        "summary": "Company details",
+        "tags": [
+          "Kiosk"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "sugar_id",
+            "in": "query",
+            "type": "string",
+            "required": true,
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "company": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "date_entered": {
+                      "type": "string"
+                    },
+                    "date_modified": {
+                      "type": "string"
+                    },
+                    "kiosk_count": {
+                      "type": "integer"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "us_state_id": {
+                      "type": "integer"
+                    },
+                    "status_c": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/kiosk/verify_phone": {
+      "post": {
+        "summary": "Validate Phone number",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone_mobile": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification code sent"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/kiosk/register_visitor": {
+      "post": {
+        "summary": "First time vendor/family registration",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "registrant": {
+                  "type": "object",
+                  "properties": {
+                    "phone_mobile": {
+                      "type": "string"
+                    },
+                    "vendor_pin_c": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile",
+                "vendor_pin_c",
+                "type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/kiosk/vendor_companies": {
+      "get": {
+        "summary": "Vendor Companies of industry",
+        "tags": [
+          "Kiosk"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "vendor_companies": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "type": "string"
+                    },
+                    "phone_num": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "us_state_id": {
+                      "type": "integer"
+                    },
+                    "address1": {
+                      "type": "string"
+                    },
+                    "address2": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/kiosk/set_personal_details": {
+      "post": {
+        "summary": "Set/update personal details of visitor/vendor",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "registrant": {
+                  "type": "object",
+                  "properties": {
+                    "visitor_id": {
+                      "type": "integer"
+                    },
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "vendor_company_id": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "visitor_id",
+                "vendor_company_id",
+                "type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/kiosk/agreements": {
+      "get": {
+        "summary": "Industry Agreements",
+        "tags": [
+          "Kiosk"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "agreements": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "company_id": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/kiosk/accept_agreements": {
+      "post": {
+        "summary": "Accept industry agreements by vendor",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "vendor_id": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "vendor_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/kiosk/departments": {
+      "get": {
+        "summary": "Departments of an industry",
+        "tags": [
+          "Kiosk"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "departments": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "company_id": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/kiosk/reset_pin": {
+      "post": {
+        "summary": "Reset pin of visitor",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "registrant": {
+                  "type": "object",
+                  "properties": {
+                    "phone_mobile": {
+                      "type": "string"
+                    },
+                    "vendor_pin_c": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile",
+                "vendor_pin_c",
+                "type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/kiosk/sign_in": {
+      "post": {
+        "summary": "Visitor Login",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone_mobile": {
+                  "type": "string"
+                },
+                "pin_c": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile",
+                "pin_c",
+                "type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    }
+  }
+}

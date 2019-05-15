@@ -1,0 +1,74 @@
+div.home_header {
+  padding-bottom: 200px;
+}
+.list_text {
+  list-style: none;
+  text-align: center;
+}
+.comm_admin_home{
+  text-align: center;
+  padding-bottom: 6px;
+}
+div.home_footer {
+  padding-top: 130px;
+  padding-bottom: 60px;
+}
+.list_text_align{
+  list-style: none;
+}
+.align_name{
+  padding-left: 10px;
+}
+.border_footer{
+  border: 1px solid black;
+}
+.preinstall{
+  font-size: 1.30rem;
+}
+.header_preinstall{
+  width: 20%;
+  float: left;
+}
+.pre{
+  width: 100%;
+}
+.main_pre{
+  width: 80%;
+  display: inline-block;
+}
+.plus{
+  float: left !important
+}
+.unit_form{
+  width: 50%;
+  display: inline-block;
+  padding-left: 7%;
+}
+.unit_body{
+  width: 50%;
+  float: right;
+}
+.submit_preinstall{
+  width: 37%;
+  float: right;
+}
+.underline_lise_ele{
+  text-decoration: underline;
+}
+.delete{
+  padding-left: 5px;
+}
+.upload_text{
+  float: left;
+  width: 32%;
+}
+.browse{
+  padding-left: 50px;
+}
+.thumb_img{
+  padding-left: 20px;
+}
+.main_page{
+  min-height: 200px;
+  padding-left: 50px;
+}
