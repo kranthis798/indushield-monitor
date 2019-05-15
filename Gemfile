@@ -29,7 +29,7 @@ gem 'rswag'
 gem 'brakeman', require: false
 gem 'simplecov', require: false
 gem 'enumerize' #selects and enums in models
-gem "paperclip", "~> 5.0.0"
+gem "paperclip", ">= 5.2.0"
 gem 'paper_trail'
 gem 'aws-sdk', '~> 2.3'
 gem "select2-rails"
