@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_15_122490) do
+ActiveRecord::Schema.define(version: 2019_05_16_061347) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -84,13 +84,13 @@ ActiveRecord::Schema.define(version: 2019_05_15_122490) do
   create_table "devices", force: :cascade do |t|
     t.string "name"
     t.string "identifier"
-    t.string "identifier_type"
-    t.string "device_mode"
+    t.integer "identifier_type"
+    t.integer "device_mode"
     t.string "model_number"
     t.string "description"
-    t.string "printer_type"
-    t.string "printer_connection"
-    t.string "printer_status"
+    t.integer "printer_type"
+    t.integer "printer_connection"
+    t.integer "printer_status"
     t.string "restart_time"
     t.bigint "building_id"
     t.bigint "company_id"
