@@ -28,6 +28,11 @@ class Vendor < ApplicationRecord
 		@vendor
 	end
 
+	def self.signin_mobile(phone_mobile, pin_c)
+	    @guest = Vendor.find_by_phone_num_and_pin(phone_mobile, pin_c)
+	    @guest
+	end  
+
 	def self.kiosk_fields
 	    %w(id first_name last_name email phone_num updated_at status pin)
 	end

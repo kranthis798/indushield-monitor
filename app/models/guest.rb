@@ -19,6 +19,11 @@ class Guest < ApplicationRecord
     @guest
   end
 
+  def self.signin_mobile(phone_mobile, pin_c)
+    @guest = Guest.find_by_phone_num_and_pin(phone_mobile, pin_c)
+    @guest
+  end  
+
   def self.kiosk_fields
     %w(id first_name last_name phone_num updated_at status)
   end

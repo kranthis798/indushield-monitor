@@ -578,6 +578,82 @@
         }
       }
     },
+    "/api/kiosk/process_events": {
+      "post": {
+        "summary": "Visitor signin request",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "entries": {
+                  "type": "object",
+                  "properties": {
+                    "visitor_type": {
+                      "type": "string"
+                    },
+                    "visit_entry_type": {
+                      "type": "string"
+                    },
+                    "visitor_id": {
+                      "type": "integer"
+                    },
+                    "event_time": {
+                      "type": "string"
+                    },
+                    "department_id": {
+                      "type": "integer"
+                    },
+                    "triggered_by": {
+                      "type": "string"
+                    },
+                    "person_name": {
+                      "type": "string"
+                    },
+                    "event_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "visitor_type",
+                "visit_entry_type",
+                "visitor_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/kiosk/reset_pin": {
       "post": {
         "summary": "Reset pin of visitor",
@@ -691,6 +767,194 @@
           },
           "404": {
             "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/kiosk/qr_signin": {
+      "get": {
+        "summary": "Sign in using QR Code",
+        "tags": [
+          "Kiosk"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "qrcode",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "visit": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "visitor_type": {
+                      "type": "string"
+                    },
+                    "visitor_id": {
+                      "type": "integer"
+                    },
+                    "department_id": {
+                      "type": "integer"
+                    },
+                    "department_name": {
+                      "type": "string"
+                    },
+                    "visit_status": {
+                      "type": "string"
+                    },
+                    "person_name": {
+                      "type": "string"
+                    },
+                    "event_id": {
+                      "type": "string"
+                    },
+                    "qrcode": {
+                      "type": "string"
+                    },
+                    "tentative_datetime": {
+                      "type": "string"
+                    },
+                    "event_date_time": {
+                      "type": "string"
+                    },
+                    "date_entered": {
+                      "type": "string"
+                    },
+                    "date_modified": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid QR Code"
+          }
+        }
+      }
+    },
+    "/api/kiosk/signout": {
+      "get": {
+        "summary": "Signout using QR Code",
+        "tags": [
+          "Kiosk"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "qrcode",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "event_time",
+            "in": "query",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "visit": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "visitor_type": {
+                      "type": "string"
+                    },
+                    "visitor_id": {
+                      "type": "integer"
+                    },
+                    "department_id": {
+                      "type": "integer"
+                    },
+                    "department_name": {
+                      "type": "string"
+                    },
+                    "visit_status": {
+                      "type": "string"
+                    },
+                    "person_name": {
+                      "type": "string"
+                    },
+                    "event_id": {
+                      "type": "string"
+                    },
+                    "qrcode": {
+                      "type": "string"
+                    },
+                    "tentative_datetime": {
+                      "type": "string"
+                    },
+                    "event_date_time": {
+                      "type": "string"
+                    },
+                    "date_entered": {
+                      "type": "string"
+                    },
+                    "date_modified": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid QR Code"
           }
         }
       }

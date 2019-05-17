@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_16_061347) do
+ActiveRecord::Schema.define(version: 2019_05_17_133600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,13 +36,17 @@ ActiveRecord::Schema.define(version: 2019_05_16_061347) do
     t.integer "status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar_file_name"
+    t.string "avatar_content_type"
+    t.bigint "avatar_file_size"
+    t.datetime "avatar_updated_at"
     t.index ["owner_id"], name: "index_companies_on_owner_id"
     t.index ["us_state_id"], name: "index_companies_on_us_state_id"
   end
 
   create_table "company_agreements", force: :cascade do |t|
     t.string "title"
-    t.string "description"
+    t.text "description"
     t.string "url"
     t.bigint "company_id"
     t.datetime "created_at", null: false
@@ -272,7 +276,6 @@ ActiveRecord::Schema.define(version: 2019_05_16_061347) do
     t.integer "visitor_id"
     t.string "person_name"
     t.date "on_date"
-    t.time "tentative_time"
     t.bigint "device_id"
     t.bigint "company_id"
     t.bigint "department_id"
@@ -283,11 +286,15 @@ ActiveRecord::Schema.define(version: 2019_05_16_061347) do
     t.integer "visit_status"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "avatar_file_name"
-    t.string "avatar_content_type"
-    t.integer "avatar_file_size"
-    t.datetime "avatar_updated_at"
     t.binary "qr_code"
+    t.integer "visit_entry_type"
+    t.string "event_id"
+    t.string "qrcode_id"
+    t.datetime "tentative_datetime"
+    t.datetime "on_date_time"
+    t.datetime "end_date_time"
+    t.string "triggered_by"
+    t.string "triggered_by_os"
     t.index ["company_id"], name: "index_visits_on_company_id"
     t.index ["department_id"], name: "index_visits_on_department_id"
     t.index ["device_id"], name: "index_visits_on_device_id"

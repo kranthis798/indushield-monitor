@@ -314,6 +314,44 @@ describe 'Kiosk API' do
     end
   end
 
+  path '/api/kiosk/process_events' do
+
+    post 'Visitor signin request' do
+        tags 'Kiosk'
+        consumes 'application/json'
+        parameter name: :auth, in: :header, type: :string, required: true
+        parameter name: :device_id, in: :header, type: :string, required: true
+        parameter name: :input, in: :body, schema: {
+        type: :object,
+         properties: {
+          entries:{ type: :object,
+            properties: {
+              visitor_type: { type: :string },
+              visit_entry_type: {type: :string},
+              visitor_id: {type: :integer},
+              event_time: { type: :string },
+              department_id: { type: :integer },
+              triggered_by: { type: :string },
+              person_name: { type: :string },
+              event_id: { type: :string }
+            }
+          }
+        },
+        required: [ 'visitor_type', 'visit_entry_type', 'visitor_id' ]
+        }
+
+        response '200', 'Success' do
+          let(:json) { {"visit":{"id":1,"visitor_type":"Vendor","visitor_id":1,"department_id":2,"department_name":"Admin Department","visit_status":"current","person_name":null,"event_id":null,"qrcode_id":"7815ad90-91d5-4dd9-a0f1-3f99c1057f5d-1558100082543","tentative_datetime":null,"event_date_time":"2019-05-17T06:30:48.102Z","date_entered":"2019-05-17T13:34:42.663Z","date_modified":"2019-05-17T13:34:42.663Z"}} }
+          run_test!
+        end
+
+        response '404', 'Invalid Request' do
+           let(:json) { 'Missing mandatory params' }
+          run_test!
+        end
+    end
+  end
+
   path '/api/kiosk/reset_pin' do
 
     post 'Reset pin of visitor' do
@@ -376,5 +414,91 @@ describe 'Kiosk API' do
         end
     end
   end
+
+  path '/api/kiosk/qr_signin' do
+
+    get 'Sign in using QR Code' do
+      tags 'Kiosk'
+      produces 'application/json'
+      parameter name: :auth, in: :header, type: :string, required: true
+      parameter name: :device_id, in: :header, type: :string, required: true
+      parameter name: :qrcode, in: :query, type: :string, required: true
+      response '200', 'Success' do
+           schema type: :array,
+          properties: {
+            visit:{ type: :object,
+              properties: {
+                  id: { type: :integer },
+                  visitor_type: {type: :string},
+                  visitor_id: { type: :integer },
+                  department_id: { type: :integer },
+                  department_name: { type: :string },
+                  visit_status: { type: :string },
+                  person_name: { type: :string },
+                  event_id: { type: :string },
+                  qrcode: { type: :string },
+                  tentative_datetime: { type: :string },
+                  event_date_time: { type: :string },
+                  date_entered: { type: :string },
+                  date_modified: { type: :string }
+              }
+            },
+            status: {type: :integer}
+          }
+
+        let(:'auth') { '<token-here>' }
+        run_test!
+      end
+
+      response '400', 'Invalid QR Code' do
+        let(:'auth') { 'invalid' }
+        run_test!
+      end
+    end
+  end
+
+  path '/api/kiosk/signout' do
+
+    get 'Signout using QR Code' do
+      tags 'Kiosk'
+      produces 'application/json'
+      parameter name: :auth, in: :header, type: :string, required: true
+      parameter name: :device_id, in: :header, type: :string, required: true
+      parameter name: :qrcode, in: :query, type: :string, required: true
+      parameter name: :event_time, in: :query, type: :string, required: true
+      response '200', 'Success' do
+           schema type: :array,
+          properties: {
+            visit:{ type: :object,
+              properties: {
+                  id: { type: :integer },
+                  visitor_type: {type: :string},
+                  visitor_id: { type: :integer },
+                  department_id: { type: :integer },
+                  department_name: { type: :string },
+                  visit_status: { type: :string },
+                  person_name: { type: :string },
+                  event_id: { type: :string },
+                  qrcode: { type: :string },
+                  tentative_datetime: { type: :string },
+                  event_date_time: { type: :string },
+                  date_entered: { type: :string },
+                  date_modified: { type: :string }
+              }
+            },
+            status: {type: :integer}
+          }
+
+        let(:'auth') { '<token-here>' }
+        run_test!
+      end
+
+      response '400', 'Invalid QR Code' do
+        let(:'auth') { 'invalid' }
+        run_test!
+      end
+    end
+  end
+  
 
 end

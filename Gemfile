@@ -31,7 +31,8 @@ gem 'simplecov', require: false
 gem 'enumerize' #selects and enums in models
 gem "paperclip", ">= 5.2.0"
 gem 'paper_trail'
-gem 'aws-sdk', '~> 2.3'
+gem 'aws-sdk', '~> 3'
+gem 'aws-sdk-s3', require: false
 gem "select2-rails"
 
 gem 'foundation-rails', '6.1.2.0'
