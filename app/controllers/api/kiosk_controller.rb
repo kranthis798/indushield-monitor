@@ -1,4 +1,5 @@
 class Api::KioskController < Api::ApiController
+	before_action :authenticate
 	
 	def get_company_info
 		record = Company.find params[:sugar_id]
@@ -92,8 +93,7 @@ class Api::KioskController < Api::ApiController
 	end		
 
 	def set_personal_details
-		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
-	    payload = params[:registrant].is_a?(String) ? JSON.parse(params[:registrant]) : params[:registrant]
+		payload = params[:registrant].is_a?(String) ? JSON.parse(params[:registrant]) : params[:registrant]
 	    registrant_type = params[:type]
     	register_class = registrant_type == "vendor" ? Vendor : Guest
     	@visitor = register_class.update_register(payload)

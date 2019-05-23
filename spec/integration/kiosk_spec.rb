@@ -65,7 +65,8 @@ describe 'Kiosk API' do
                 kiosk_count: { type: :integer },
                 owner_id: { type: :integer },
                 us_state_id: { type: :integer },
-                status_c: {type: :string}
+                status_c: {type: :string},
+                avatar_url: {type: :string}
                 
               }
             },

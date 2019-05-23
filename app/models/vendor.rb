@@ -18,8 +18,10 @@ class Vendor < ApplicationRecord
 	    payload = OpenStruct.new registrant_payload
 	    @vendor = Vendor.find(payload.visitor_id)
 		@vendor.update! first_name:payload.first_name, last_name:payload.last_name, email:payload.email
-	    #Link to Vendor Agency
-	  	@vendor.vendor_agencies << VendorAgency.find(payload.vendor_company_id)
+		#Link to Vendor Agency
+		if payload.vendor_company_id.present?
+			@vendor.vendor_agencies << VendorAgency.find(payload.vendor_company_id)
+	  	end
 	  	@vendor
 	end
 

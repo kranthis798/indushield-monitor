@@ -26,9 +26,17 @@ Rails.application.routes.draw do
     get "/kiosk/signout", to:"kiosk#signout"
 
     #mobile API
-    post "/mobile/verify_phone", to:"kiosk#verify_phone"
     post "/mobile/sign_in", to:"mobile#signin"
+    post "/mobile/forgot_pin", to:"mobile#forgot_pin"
+    post "/mobile/reset_pin", to:"mobile#reset_pin"
+    post "/mobile/set_personal_details", to:"mobile#set_personal_details"
     get "/mobile/my_customers", to:"mobile#get_visitor_companies"
+    get "/mobile/my_visits", to:"mobile#get_visits"
+    get "/mobile/agreements", to:"mobile#get_agreements"
+    get "/mobile/departments", to:"mobile#get_departments"
+    get "/mobile/notes", to:"mobile#get_notes"
+    post "/mobile/update_notes", to:"mobile#update_notes"
+    post "/mobile/new_visit", to:"mobile#process_events"
 
   end
 

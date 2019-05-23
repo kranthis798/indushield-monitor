@@ -144,6 +144,9 @@
                     },
                     "status_c": {
                       "type": "string"
+                    },
+                    "avatar_url": {
+                      "type": "string"
                     }
                   }
                 },
@@ -955,6 +958,615 @@
           },
           "400": {
             "description": "Invalid QR Code"
+          }
+        }
+      }
+    },
+    "/api/mobile/sign_in": {
+      "post": {
+        "summary": "Visitor Login",
+        "tags": [
+          "Mobile"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone_mobile": {
+                  "type": "string"
+                },
+                "pin_c": {
+                  "type": "string"
+                },
+                "type": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile",
+                "pin_c",
+                "type"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/mobile/forgot_pin": {
+      "post": {
+        "summary": "Validate Phone number",
+        "tags": [
+          "Mobile"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone_mobile": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification code sent"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/mobile/reset_pin": {
+      "post": {
+        "summary": "Reset pin",
+        "tags": [
+          "Mobile"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone_mobile": {
+                  "type": "string"
+                },
+                "pin_c": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile",
+                "pin_c"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pin updated successfully"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/mobile/set_personal_details": {
+      "post": {
+        "summary": "Set/update personal details of visitor/vendor",
+        "tags": [
+          "Mobile"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "registrant": {
+                  "type": "object",
+                  "properties": {
+                    "first_name": {
+                      "type": "string"
+                    },
+                    "last_name": {
+                      "type": "string"
+                    },
+                    "email": {
+                      "type": "string"
+                    },
+                    "vendor_company_id": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "vendor_company_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/mobile/my_customers": {
+      "get": {
+        "summary": "Customers of a particular vendor",
+        "tags": [
+          "Mobile"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "customers": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "date_entered": {
+                      "type": "string"
+                    },
+                    "date_modified": {
+                      "type": "string"
+                    },
+                    "owner_id": {
+                      "type": "integer"
+                    },
+                    "us_state_id": {
+                      "type": "integer"
+                    },
+                    "status_c": {
+                      "type": "string"
+                    },
+                    "avatar_url": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/mobile/my_visits": {
+      "get": {
+        "summary": "Visits of vendor by industry",
+        "tags": [
+          "Mobile"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "company_id",
+            "in": "query",
+            "type": "string",
+            "required": true,
+            "description": ""
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "customers": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "person_name": {
+                      "type": "string"
+                    },
+                    "on_date": {
+                      "type": "string"
+                    },
+                    "visit_status": {
+                      "type": "string"
+                    },
+                    "visit_entry_type": {
+                      "type": "integer"
+                    },
+                    "event_id": {
+                      "type": "string"
+                    },
+                    "qrcode_id": {
+                      "type": "string"
+                    },
+                    "tentative_datetime": {
+                      "type": "string"
+                    },
+                    "on_date_time": {
+                      "type": "string"
+                    },
+                    "end_date_time": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/mobile/departments": {
+      "get": {
+        "summary": "Departments of an industry",
+        "tags": [
+          "Mobile"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "company_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "departments": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "code": {
+                      "type": "string"
+                    },
+                    "company_id": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/mobile/new_visit": {
+      "post": {
+        "summary": "New visit request",
+        "tags": [
+          "Mobile"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "entries": {
+                  "type": "object",
+                  "properties": {
+                    "tentative_datetime": {
+                      "type": "string"
+                    },
+                    "person_name": {
+                      "type": "string"
+                    },
+                    "department_id": {
+                      "type": "integer"
+                    },
+                    "triggered_by": {
+                      "type": "string"
+                    },
+                    "send_message": {
+                      "type": "boolean"
+                    },
+                    "person_contact": {
+                      "type": "string"
+                    },
+                    "visit_notes": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "visitor_type",
+                "visit_entry_type",
+                "visitor_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
+    "/api/mobile/agreements": {
+      "get": {
+        "summary": "Industry Agreements accepted by Vendor",
+        "tags": [
+          "Mobile"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "company_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "agreements": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "description": {
+                      "type": "string"
+                    },
+                    "url": {
+                      "type": "string"
+                    },
+                    "company_id": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/mobile/notes": {
+      "get": {
+        "summary": "Visit Notes",
+        "tags": [
+          "Mobile"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "visit_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "array",
+              "properties": {
+                "notes": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "before_visit": {
+                      "type": "string"
+                    },
+                    "after_visit": {
+                      "type": "string"
+                    },
+                    "visit_id": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "status": {
+                  "type": "integer"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Invalid Token"
+          }
+        }
+      }
+    },
+    "/api/mobile/update_notes": {
+      "post": {
+        "summary": "Update existing visit notes",
+        "tags": [
+          "Mobile"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "Authorization",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "notes_id": {
+                  "type": "integer"
+                },
+                "before_visit": {
+                  "type": "string"
+                },
+                "after_visit": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "notes_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
           }
         }
       }
