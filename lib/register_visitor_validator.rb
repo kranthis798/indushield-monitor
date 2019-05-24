@@ -1,5 +1,4 @@
-module Validators
-  class RegisterVisitorValidator
+class RegisterVisitorValidator
 
   def self.validate(payload, type)
 
@@ -37,5 +36,4 @@ module Validators
 
   end
 
-  end
 end

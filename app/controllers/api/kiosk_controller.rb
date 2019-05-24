@@ -48,7 +48,7 @@ class Api::KioskController < Api::ApiController
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 	    payload = params[:registrant].is_a?(String) ? JSON.parse(params[:registrant]) : params[:registrant]
 	    # Validate input
-	    errors = Validators::RegisterVisitorValidator.validate(payload, params[:type])
+	    errors = RegisterVisitorValidator.validate(payload, params[:type])
 	    if errors.length > 0
 	      hash_response = {visitor: nil, type: nil, msg: errors.join(" | ")}
 	      render json: hash_response, status: 400
