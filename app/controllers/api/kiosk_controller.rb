@@ -81,7 +81,7 @@ class Api::KioskController < Api::ApiController
 	    	register_class = registrant_type == "vendor" ? Vendor : Guest
 	    	@visitor = register_class.signin(params[:phone_mobile], params[:pin_c], us_state_id)
 	    	if @visitor.present?
-	    		render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
+	    		render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
 	    	else
 	    		render json: {message: "ERROR! Invaid Phone number / PIN"}, status: 400
 	    	end
@@ -97,7 +97,7 @@ class Api::KioskController < Api::ApiController
 	    registrant_type = params[:type]
     	register_class = registrant_type == "vendor" ? Vendor : Guest
     	@visitor = register_class.update_register(payload)
-    	render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
+    	render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
 	rescue => e
   		render json: {message: e.message}, status: 500
 	end		
@@ -163,7 +163,7 @@ class Api::KioskController < Api::ApiController
 	def process_events
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 	    payload = params[:entries].is_a?(String) ? JSON.parse(params[:entries]) : params[:entries]
-	    visitor_type = payload['visitor_type'] == "VENDOR" ? :Vendor : :Guest
+	    visitor_type = payload['visitor_type'] == "vendor" ? :Vendor : :Guest
 	    visit_entry_type = payload['visit_entry_type'] == "SIGNIN" ? :Visit : :Signout
 	    time_millis = (Time.now.to_f * 1000).to_i
 	    qrcode_id = SecureRandom.uuid+"-"+time_millis.to_s

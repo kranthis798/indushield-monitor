@@ -39,7 +39,7 @@ class Api::MobileController < Api::ApiController
     	@visitor = register_class.signin_mobile(params[:phone_mobile], params[:pin_c])
     	if @visitor.present?
     		auth_token = JsonWebToken.encode(visitor_id: @visitor.id.to_s,type:registrant_type)
-    		render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type, auth_token:auth_token}, status: 200
+    		render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type, auth_token:auth_token}, status: 200
     	else
     		render json: {message: "ERROR! Invaid Phone number / PIN"}, status: 400
     	end
@@ -68,7 +68,7 @@ class Api::MobileController < Api::ApiController
     	register_class = registrant_type == "vendor" ? Vendor : Guest
     	payload['visitor_id'] = current_visitor.id
     	@visitor = register_class.update_register(payload)
-    	render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
+    	render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
 	rescue => e
   		render json: {message: e.message}, status: 500
 	end		
