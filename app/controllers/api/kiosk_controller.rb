@@ -48,7 +48,7 @@ class Api::KioskController < Api::ApiController
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 	    payload = params[:registrant].is_a?(String) ? JSON.parse(params[:registrant]) : params[:registrant]
 	    # Validate input
-	    errors = RegisterVisitorValidator.validate(payload, params[:type])
+	    errors = validate(payload, params[:type])
 	    if errors.length > 0
 	      hash_response = {visitor: nil, type: nil, msg: errors.join(" | ")}
 	      render json: hash_response, status: 400
@@ -105,7 +105,7 @@ class Api::KioskController < Api::ApiController
 	def reset_pin
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 	    payload = params[:registrant].is_a?(String) ? JSON.parse(params[:registrant]) : params[:registrant]
-	    errors = Validators::RegisterVisitorValidator.validate(payload, params[:type])
+	    errors = validate(payload, params[:type])
 	    if errors.length > 0
 	      hash_response = {visitor: nil, type: nil, msg: errors.join(" | ")}
 	      render json: hash_response, status: 400
@@ -309,6 +309,42 @@ class Api::KioskController < Api::ApiController
 
   def find_vendor(phone, state_id)
     Vendor.find_by_phone_num_and_us_state_id(phone, state_id)
+  end
+
+  def validate(payload, type)
+
+    errors = []
+
+    # Validate phone number
+    msg = validate_phone_number(payload["phone_mobile"])
+    errors << msg unless msg.nil?
+
+    # Validate type
+    msg = validate_type(type)
+    errors << msg unless msg.nil?
+
+    errors
+
+  end
+
+  def validate_phone_number(phone)
+
+    if phone == nil || phone.empty?
+      "No phone number provided."
+    elsif /^\d{10}$/ !~ phone # Regex for only numbers and 10 characters long
+      "Invalid phone number provided."
+    end
+
+  end
+
+  def validate_type(type)
+
+    if type == nil || type.empty?
+      "No visitor type specified."
+    elsif type.casecmp("vendor") != 0 && type.casecmp("visitor") != 0
+      "Invalid visitor type provided."
+    end
+
   end
 
 end
