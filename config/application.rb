@@ -22,6 +22,7 @@ module IndustryPortal
     # the framework and any gems in your application.
 
     config.autoload_paths += %W(#{config.root}/lib) # add this line
+    config.autoload_paths += Dir["#{config.root}/lib/**/"]
 
     config.middleware.insert_before 0, Rack::Cors do
       allow do
