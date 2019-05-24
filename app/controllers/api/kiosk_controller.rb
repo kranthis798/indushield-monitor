@@ -1,6 +1,6 @@
 class Api::KioskController < Api::ApiController
 	before_action :authenticate
-	
+
 	def get_company_info
 		record = Company.find params[:sugar_id]
 	    status = record.nil? ? 404 : 200
@@ -169,6 +169,21 @@ class Api::KioskController < Api::ApiController
 	    qrcode_id = SecureRandom.uuid+"-"+time_millis.to_s
 	    @visit = Visit.create! visitor_type:visitor_type,visit_entry_type:visit_entry_type,visitor_id:payload['visitor_id'],person_name:payload['person_name'],on_date: on_date_str(payload['event_time']),on_date_time:payload['event_time'],start_time:event_time_hhmm(payload['event_time']),device_id:device_id, company_id:payload['company_id'],department_id:payload['department_id'],visit_status: :current, event_id:payload['event_id'],qrcode_id:qrcode_id,triggered_by: 'Kiosk'
 		render json: {visit:@visit.try(:kiosk_payload)}, status: :ok
+	rescue => e
+  		render json: {message: e.message}, status: 500
+	end
+
+	def process_qr_events
+		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
+	    payload = params[:entries].is_a?(String) ? JSON.parse(params[:entries]) : params[:entries]
+	    if payload['visit_id']
+	    	@visit = Visit.find(payload['visit_id'])
+	    	@visit.update! on_date: on_date_str(payload['event_time']),on_date_time:payload['event_time'],start_time:event_time_hhmm(payload['event_time']),device_id:device_id,visit_status: :current, event_id:payload['event_id']
+	    	render json: {visit:@visit.try(:kiosk_payload)}, status: :ok
+	    else
+	    	render json: {message: "Missing Visit id"}, status: not_found
+	    end
+
 	rescue => e
   		render json: {message: e.message}, status: 500
 	end

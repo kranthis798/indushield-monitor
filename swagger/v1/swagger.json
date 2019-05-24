@@ -865,6 +865,67 @@
         }
       }
     },
+    "/api/kiosk/process_qr_events": {
+      "post": {
+        "summary": "QR Visitor signin request",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "entries": {
+                  "type": "object",
+                  "properties": {
+                    "visit_id": {
+                      "type": "integer"
+                    },
+                    "event_time": {
+                      "type": "string"
+                    },
+                    "event_id": {
+                      "type": "string"
+                    }
+                  }
+                }
+              },
+              "required": [
+                "visit_id",
+                "event_time",
+                "event_id"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/kiosk/signout": {
       "get": {
         "summary": "Signout using QR Code",

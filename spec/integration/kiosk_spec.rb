@@ -458,6 +458,39 @@ describe 'Kiosk API' do
     end
   end
 
+  path '/api/kiosk/process_qr_events' do
+
+    post 'QR Visitor signin request' do
+        tags 'Kiosk'
+        consumes 'application/json'
+        parameter name: :auth, in: :header, type: :string, required: true
+        parameter name: :device_id, in: :header, type: :string, required: true
+        parameter name: :input, in: :body, schema: {
+        type: :object,
+         properties: {
+          entries:{ type: :object,
+            properties: {
+              visit_id: { type: :integer },
+              event_time: { type: :string },
+              event_id: { type: :string }
+            }
+          }
+        },
+        required: [ 'visit_id', 'event_time', 'event_id' ]
+        }
+
+        response '200', 'Success' do
+          let(:json) { {"visit":{"id":1,"visitor_type":"Vendor","visitor_id":1,"department_id":2,"department_name":"Admin Department","visit_status":"current","person_name":null,"event_id":null,"qrcode_id":"7815ad90-91d5-4dd9-a0f1-3f99c1057f5d-1558100082543","tentative_datetime":null,"event_date_time":"2019-05-17T06:30:48.102Z","date_entered":"2019-05-17T13:34:42.663Z","date_modified":"2019-05-17T13:34:42.663Z"}} }
+          run_test!
+        end
+
+        response '404', 'Invalid Request' do
+           let(:json) { 'Missing mandatory params' }
+          run_test!
+        end
+    end
+  end
+
   path '/api/kiosk/signout' do
 
     get 'Signout using QR Code' do

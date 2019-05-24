@@ -1,7 +1,6 @@
 class Api::MobileController < Api::ApiController
 	require 'uri'
 	before_action :authorize_request, :except => [:signin, :forgot_pin, :reset_pin]
-	#skip_before_action :authorize_request, :only => [:signin]
 	attr_reader :current_visitor, :visitor_type
 	
 

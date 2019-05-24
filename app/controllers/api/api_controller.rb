@@ -1,7 +1,6 @@
 class Api::ApiController < ApplicationController
   
   skip_before_action :verify_authenticity_token
-  attr_reader :current_visitor, :visitor_type
   
   def authenticate
   	password = request.headers["auth"]
