@@ -49,7 +49,7 @@ class Api::MobileController < Api::ApiController
 
 	def get_visits
 		visitor_class = visitor_type == "vendor" ? :Vendor : :Guest
-		@visits = Visit.where(visitor_type:visitor_class,visitor_id:current_visitor.id,company_id:params['company_id']).select('id,person_name,on_date,visit_status,visit_entry_type,qrcode_id,tentative_datetime,on_date_time,end_date_time,event_id')
+		@visits = Visit.where(visitor_type:visitor_class,visitor_id:current_visitor.id,company_id:params['company_id'])
 		@processed_visits = []
 		@visits.each do|visit|
 			@processed_visits << visit.try(:kiosk_payload)
