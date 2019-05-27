@@ -52,7 +52,7 @@ class Api::MobileController < Api::ApiController
 		@visits = Visit.where(visitor_type:visitor_class,visitor_id:current_visitor.id,company_id:params['company_id']).select('id,person_name,on_date,visit_status,visit_entry_type,qrcode_id,tentative_datetime,on_date_time,end_date_time,event_id')
 		@processed_visits = []
 		@visits.each do|visit|
-			@processed_visits << @visit.try(:kiosk_payload)
+			@processed_visits << visit.try(:kiosk_payload)
 		end
 		render json: {visits:@processed_visits}, status: 200
 	rescue => e
