@@ -238,7 +238,7 @@ describe 'Mobile Apps API' do
               tentative_datetime: { type: :string },
               person_name: { type: :string },
               department_id: { type: :integer },
-              triggered_by: { type: :string },
+              triggered_by_os: { type: :string },
               send_message: {type: :boolean},
               person_contact: {type: :string},
               visit_notes: {type: :string}

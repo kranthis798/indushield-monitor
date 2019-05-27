@@ -13,7 +13,8 @@ class Visit < ApplicationRecord
     payload = {id:id, visitor_type:visitor_type,
     			visitor_id:visitor_id, department_id:department_id,department_name:department.name,
     			visit_status:visit_status,person_name:person_name,event_id:event_id,qrcode:qrcode_id,
-    			tentative_datetime:tentative_datetime,start_date_time:on_date_time,end_date_time:end_date_time,
+    			send_message: send_message, person_contact:person_contact,tentative_datetime:tentative_datetime,
+    			start_date_time:on_date_time,end_date_time:end_date_time,
     			date_entered: created_at,date_modified: updated_at
                }
     

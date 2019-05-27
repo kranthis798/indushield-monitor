@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_17_133600) do
+ActiveRecord::Schema.define(version: 2019_05_27_101924) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -295,6 +295,8 @@ ActiveRecord::Schema.define(version: 2019_05_17_133600) do
     t.datetime "end_date_time"
     t.string "triggered_by"
     t.string "triggered_by_os"
+    t.boolean "send_message"
+    t.string "person_contact"
     t.index ["company_id"], name: "index_visits_on_company_id"
     t.index ["department_id"], name: "index_visits_on_department_id"
     t.index ["device_id"], name: "index_visits_on_device_id"

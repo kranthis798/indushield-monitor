@@ -328,10 +328,11 @@ describe 'Kiosk API' do
           entries:{ type: :object,
             properties: {
               visitor_type: { type: :string },
-              visit_entry_type: {type: :string},
-              visitor_id: {type: :integer},
+              visit_entry_type: { type: :string },
+              visitor_id: { type: :integer },
               event_time: { type: :string },
               department_id: { type: :integer },
+              company_id: { type: :integer },
               triggered_by: { type: :string },
               person_name: { type: :string },
               event_id: { type: :string }
@@ -432,6 +433,7 @@ describe 'Kiosk API' do
                   id: { type: :integer },
                   visitor_type: {type: :string},
                   visitor_id: { type: :integer },
+                  company_id: {type: :integer},
                   department_id: { type: :integer },
                   department_name: { type: :string },
                   visit_status: { type: :string },

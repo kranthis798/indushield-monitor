@@ -627,6 +627,9 @@
                     "department_id": {
                       "type": "integer"
                     },
+                    "company_id": {
+                      "type": "integer"
+                    },
                     "triggered_by": {
                       "type": "string"
                     },
@@ -819,6 +822,9 @@
                       "type": "string"
                     },
                     "visitor_id": {
+                      "type": "integer"
+                    },
+                    "company_id": {
                       "type": "integer"
                     },
                     "department_id": {
@@ -1432,7 +1438,7 @@
                     "department_id": {
                       "type": "integer"
                     },
-                    "triggered_by": {
+                    "triggered_by_os": {
                       "type": "string"
                     },
                     "send_message": {
