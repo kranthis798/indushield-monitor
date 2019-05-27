@@ -34,7 +34,7 @@ class Api::MobileController < Api::ApiController
 
 
 	def signin
-		registrant_type = params[:type]
+		registrant_type = params[:type].try(:downcase)
 	    register_class = registrant_type == "vendor" ? Vendor : Guest
     	@visitor = register_class.signin_mobile(params[:phone_mobile], params[:pin_c])
     	if @visitor.present?

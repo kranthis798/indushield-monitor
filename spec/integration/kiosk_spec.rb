@@ -332,8 +332,6 @@ describe 'Kiosk API' do
               visitor_id: { type: :integer },
               event_time: { type: :string },
               department_id: { type: :integer },
-              company_id: { type: :integer },
-              triggered_by: { type: :string },
               person_name: { type: :string },
               event_id: { type: :string }
             }

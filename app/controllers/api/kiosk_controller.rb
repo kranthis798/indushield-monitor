@@ -55,8 +55,8 @@ class Api::KioskController < Api::ApiController
 	    end
 	    msg, us_state_id, comp_id = get_company_us_state_device(device_id)
 	    if us_state_id.present?
-	    	is_guest = (params[:type].try(:downcase) == "visitor")
-	    	registrant_type = params[:type]
+	    	is_guest = (params[:type].try(:downcase) == "guest")
+	    	registrant_type = params[:type].try(:downcase)
 	    	find_visitor payload['phone_mobile'], us_state_id, is_guest
 
 	    	if @visitor.nil?
@@ -77,7 +77,7 @@ class Api::KioskController < Api::ApiController
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 	    msg, us_state_id, comp_id = get_company_us_state_device(device_id)
 	    if us_state_id.present?
-	    	registrant_type = params[:type]
+	    	registrant_type = params[:type].try(:downcase)
 	    	register_class = registrant_type == "vendor" ? Vendor : Guest
 	    	@visitor = register_class.signin(params[:phone_mobile], params[:pin_c], us_state_id)
 	    	if @visitor.present?
@@ -94,7 +94,7 @@ class Api::KioskController < Api::ApiController
 
 	def set_personal_details
 		payload = params[:registrant].is_a?(String) ? JSON.parse(params[:registrant]) : params[:registrant]
-	    registrant_type = params[:type]
+	    registrant_type = params[:type].try(:downcase)
     	register_class = registrant_type == "vendor" ? Vendor : Guest
     	@visitor = register_class.update_register(payload)
     	render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
@@ -112,8 +112,8 @@ class Api::KioskController < Api::ApiController
 	    end
 	    msg, us_state_id, comp_id = get_company_us_state_device(device_id)
 	    if us_state_id.present?
-	    	is_guest = (params[:type].try(:downcase) == "visitor")
-	    	registrant_type = params[:type]
+	    	is_guest = (params[:type].try(:downcase) == "guest")
+	    	registrant_type = params[:type].try(:downcase)
 	    	find_visitor payload['phone_mobile'], us_state_id, is_guest
 	    	if @visitor.present?
 	    		register_class = registrant_type == "vendor" ? Vendor : Guest
@@ -162,12 +162,13 @@ class Api::KioskController < Api::ApiController
 
 	def process_events
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
+		device_info = Device.find(device_id)
 	    payload = params[:entries].is_a?(String) ? JSON.parse(params[:entries]) : params[:entries]
-	    visitor_type = payload['visitor_type'] == "vendor" ? :Vendor : :Guest
+	    visitor_type = payload['visitor_type'].try(:downcase) == "vendor" ? :Vendor : :Guest
 	    visit_entry_type = payload['visit_entry_type'] == "SIGNIN" ? :Visit : :Signout
 	    time_millis = (Time.now.to_f * 1000).to_i
 	    qrcode_id = SecureRandom.uuid+"-"+time_millis.to_s
-	    @visit = Visit.create! visitor_type:visitor_type,visit_entry_type:visit_entry_type,visitor_id:payload['visitor_id'],person_name:payload['person_name'],on_date: on_date_str(payload['event_time']),on_date_time:payload['event_time'],start_time:event_time_hhmm(payload['event_time']),device_id:device_id, company_id:payload['company_id'],department_id:payload['department_id'],visit_status: :current, event_id:payload['event_id'],qrcode_id:qrcode_id,triggered_by: 'Kiosk'
+	    @visit = Visit.create! visitor_type:visitor_type,visit_entry_type:visit_entry_type,visitor_id:payload['visitor_id'],person_name:payload['person_name'],on_date: on_date_str(payload['event_time']),on_date_time:payload['event_time'],start_time:event_time_hhmm(payload['event_time']),device_id:device_id, company_id:device_info.company_id,department_id:payload['department_id'],visit_status: :current, event_id:payload['event_id'],qrcode_id:qrcode_id,triggered_by: 'Kiosk'
 		render json: {visit:@visit.try(:kiosk_payload)}, status: :ok
 	rescue => e
   		render json: {message: e.message}, status: 500

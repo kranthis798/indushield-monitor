@@ -9,7 +9,7 @@ class Vendor < ApplicationRecord
 	    payload = OpenStruct.new registrant_payload
 		# record = create! first_name:payload.first_name, last_name:payload.last_name, phone_num:payload.phone_mobile,status:payload.status_c,
 	 	#                     pin:payload.vendor_pin_c, us_state_id:us_state_id
-	 	record = create! phone_num:payload.phone_mobile, status:payload.status_c, pin:payload.vendor_pin_c, us_state_id:us_state_id, status:payload.status
+	 	record = create! phone_num:payload.phone_mobile, pin:payload.vendor_pin_c, phone_verified: true, us_state_id:us_state_id, status:payload.status
 	    #Link to Company
 	    record.companies << Company.find(company_id)
 	    record
