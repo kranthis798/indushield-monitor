@@ -197,7 +197,7 @@ describe 'Mobile Apps API' do
       tags 'Mobile'
       produces 'application/json'
       parameter name: :Authorization, in: :header, type: :string, required: true
-      parameter name: :company_id, in: :header, type: :string, required: true
+      parameter name: :company_id, in: :query, type: :string, required: true
         
       response '200', 'Success' do
            schema type: :array,
