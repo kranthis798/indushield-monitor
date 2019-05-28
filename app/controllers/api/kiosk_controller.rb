@@ -141,7 +141,25 @@ class Api::KioskController < Api::ApiController
 	def get_company_agreements
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 		device_info = Device.find(device_id)
-		agreements = CompanyAgreement.where(company_id:device_info.company_id)
+		if params[:vendor_id]
+			@vendor = Vendor.find(params[:vendor_id])
+			@signed_agreements = @vendor.company_agreements
+			@updated_agreements = ActiveRecord::Base.connection.execute("SELECT company_agreements.* FROM company_agreements INNER JOIN company_agreements_vendors ON company_agreements.id = company_agreements_vendors.company_agreement_id WHERE company_agreements_vendors.vendor_id=#{params[:vendor_id]} and date_signed<updated_at")
+			@up_agreements = []
+			@signed_agreements.each do |updated|
+				@up_agreements << updated.id
+			end
+			all_agreements = CompanyAgreement.where(company_id:device_info.company_id).where.not(id: @up_agreements)
+			agreements = []
+			@updated_agreements.each do |updated|
+				agreements << updated
+			end
+			all_agreements.each do |all|
+				agreements << all
+			end
+		else
+			agreements = CompanyAgreement.where(company_id:device_info.company_id)
+		end
 		render json: {agreements: agreements}, status: :ok
 	rescue => e
   		render json: {message: e.message}, status: 500
@@ -150,10 +168,16 @@ class Api::KioskController < Api::ApiController
 	def accept_agreements
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 		device_info = Device.find(device_id)
-		agreements = CompanyAgreement.where(company_id:device_info.company_id)
+		agreements = params[:agreement_ids]
+		#agreements = CompanyAgreement.where(company_id:device_info.company_id)
 		@vendor = Vendor.find(params[:vendor_id])
 		agreements.each do|agreement|
-			@vendor.company_agreements << agreement
+			ext = @vendor.company_agreements.where(id:agreement)
+			if ext.present?
+				ActiveRecord::Base.connection.execute("update company_agreements_vendors set date_signed=now() where company_agreement_id=#{agreement} and vendor_id=#{params[:vendor_id]}")
+			else
+				@vendor.company_agreements << CompanyAgreement.find(agreement)
+			end
 		end
 		render json: {message: "Success"}, status: :ok
 	rescue => e

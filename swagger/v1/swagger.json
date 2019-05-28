@@ -435,6 +435,12 @@
             "in": "header",
             "type": "string",
             "required": true
+          },
+          {
+            "name": "vendor_id",
+            "in": "query",
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {
@@ -505,6 +511,9 @@
               "properties": {
                 "vendor_id": {
                   "type": "integer"
+                },
+                "agreement_ids": {
+                  "type": "object"
                 }
               },
               "required": [

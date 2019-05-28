@@ -228,6 +228,7 @@ describe 'Kiosk API' do
       produces 'application/json'
       parameter name: :auth, in: :header, type: :string, required: true
       parameter name: :device_id, in: :header, type: :string, required: true
+      parameter name: :vendor_id, in: :query, type: :string, required: true
         
       response '200', 'Success' do
            schema type: :array,
@@ -265,7 +266,8 @@ describe 'Kiosk API' do
         parameter name: :input, in: :body, schema: {
         type: :object,
         properties: {
-          vendor_id: { type: :integer }
+          vendor_id: { type: :integer },
+          agreement_ids: { type: :object }
         },
         required: [ 'vendor_id' ]
         }
