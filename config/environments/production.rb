@@ -80,7 +80,6 @@ Rails.application.configure do
     address: "smtp.gmail.com",
     port: 587,
     authentication: "plain",
-    domain: "gmail.com",
     enable_starttls_auto: true,
     openssl_verify_mode: OpenSSL::SSL::VERIFY_PEER,
     ca_file: '/usr/lib/ssl/certs/ca-certificates.crt',
