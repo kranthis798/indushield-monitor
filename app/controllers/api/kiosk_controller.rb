@@ -117,7 +117,7 @@ class Api::KioskController < Api::ApiController
 	    	find_visitor payload['phone_mobile'], us_state_id, is_guest
 	    	if @visitor.present?
 	    		register_class = registrant_type == "vendor" ? Vendor : Guest
-	    		@visitor.update! pin:payload.pin_c
+	    		@visitor.update! pin:payload.vendor_pin_c
 	    		render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
 	    	else
 	    		render json: {message: "ERROR! Invaid Phone number"}, status: 400
