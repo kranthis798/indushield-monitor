@@ -111,13 +111,12 @@ class Api::KioskController < Api::ApiController
 	      render json: hash_response, status: 400
 	    end
 	    msg, us_state_id, comp_id = get_company_us_state_device(device_id)
-	    if us_state_id.present?
-	    	is_guest = (params[:type].try(:downcase) == "guest")
+	    if device_id.present?
 	    	registrant_type = params[:type].try(:downcase)
-	    	find_visitor payload['phone_mobile'], us_state_id, is_guest
+	    	register_class = registrant_type == "vendor" ? Vendor : Guest
+	    	@visitor = register_class.find_by_phone_num(payload['phone_mobile'])
 	    	if @visitor.present?
-	    		register_class = registrant_type == "vendor" ? Vendor : Guest
-	    		@visitor.update! pin:payload.vendor_pin_c
+	    		@visitor.update! pin:payload['vendor_pin_c']
 	    		render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
 	    	else
 	    		render json: {message: "ERROR! Invaid Phone number"}, status: 400
