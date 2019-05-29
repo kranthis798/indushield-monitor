@@ -206,7 +206,7 @@ class Api::KioskController < Api::ApiController
 	    	@visit.update! on_date: on_date_str(payload['event_time']),on_date_time:payload['event_time'],start_time:event_time_hhmm(payload['event_time']),device_id:device_id,visit_status: :current, event_id:payload['event_id']
 	    	render json: {visit:@visit.try(:kiosk_payload)}, status: :ok
 	    else
-	    	render json: {message: "Missing Visit id"}, status: not_found
+	    	render json: {message: "Missing Visit id"}, status: :not_found
 	    end
 
 	rescue => e
