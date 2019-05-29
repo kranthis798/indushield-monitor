@@ -103,7 +103,7 @@ class Api::MobileController < Api::ApiController
 		visit_entry_type = :Visit
 	    time_millis = (Time.now.to_f * 1000).to_i
 	    qrcode_id = SecureRandom.uuid+"-"+time_millis.to_s
-	    @visit = Visit.create! visitor_type:ivisitor_type,visit_entry_type:visit_entry_type,visitor_id:current_visitor.id,person_name:payload['person_name'],tentative_datetime: payload['tentative_datetime'],company_id:payload['company_id'],department_id:payload['department_id'],visit_status: :pre_visit, qrcode_id:qrcode_id,triggered_by: 'Mobile', send_message: params[:send_message], person_contact: params[:person_contact],triggered_by_os: params[:triggered_by_os]
+	    @visit = Visit.create! visitor_type:ivisitor_type,visit_entry_type:visit_entry_type,visitor_id:current_visitor.id,person_name:payload['person_name'],tentative_datetime: payload['tentative_datetime'],company_id:payload['company_id'],department_id:payload['department_id'],visit_status: :pre_visit, qrcode_id:qrcode_id,triggered_by: 'Mobile', send_message: params[:send_message], person_contact: params[:person_contact],triggered_by_os: params[:triggered_by_os],device_id:1
 		msg = "#{visitor_type} will be visiting on #{payload['tentative_datetime']} "
 		if params[:visit_notes]
 			msg = params[:visit_notes]
