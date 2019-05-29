@@ -100,7 +100,7 @@ Rails.application.configure do
   :s3_host_name => 's3.amazonaws.com',
   :path => 'production/:class/:attachment/:id_partition/:style/:filename',
   s3_credentials: {
-    bucket: 'accushield-community-assets',
+    bucket: 'indushield-community-assets',
     access_key_id: ENV.fetch('S3_ACCESS'),
     secret_access_key: ENV.fetch('S3_SECRET'),
   }

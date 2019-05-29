@@ -216,7 +216,9 @@ class Api::KioskController < Api::ApiController
 	def validate_QR
 		@visit = Visit.find_by_qrcode_id(params[:qrcode])
 		if @visit.present?
-			render json: {visit:@visit.try(:kiosk_payload)}, status: :ok
+			register_class = @visit.visitor_type == "Vendor" ? Vendor : Guest
+			visitor_info = register_class.find(@visit.visitor_id)
+			render json: {visit:@visit.try(:kiosk_payload), visitor:visitor_info.try(:kiosk_payload)}, status: :ok
 		else
 	    	render json: {message: "ERROR! Invalid QR Code"}, status: 400
 	    end

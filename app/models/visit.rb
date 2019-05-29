@@ -11,6 +11,7 @@ class Visit < ApplicationRecord
   def kiosk_payload
   	visitor_class = visitor_type == "Vendor" ? Vendor : Guest
     payload = {id:id, visitor_type:visitor_type,
+    			company_id:company_id,
     			visitor_id:visitor_id, department_id:department_id,department_name:department.name,
     			visit_status:visit_status,person_name:person_name,event_id:event_id,qrcode:qrcode_id,
     			send_message: send_message, person_contact:person_contact,tentative_datetime:tentative_datetime,
