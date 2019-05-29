@@ -10,8 +10,20 @@ class Guest < ApplicationRecord
     #                  pin:payload.pin_c, us_state_id:us_state_id, guest_type:payload.visitor_type_c
     record = create! phone_num:payload.phone_mobile, first_name:payload.first_name, last_name:payload.last_name, status:payload.status, pin:payload.pin_c, us_state_id:us_state_id, guest_type:payload.visitor_type_c
     #Link to Company
-    record.companies << Company.find(company_id)
+    ext = record.companies.where(id:company_id)
+    if ext.present?
+      p "already mapped"
+    else
+        record.companies << Company.find(company_id)
+    end
     record
+  end
+
+  def self.update_register(registrant_payload)
+      payload = OpenStruct.new registrant_payload
+      @guest = Guest.find(payload.visitor_id)
+      @guest.update! first_name:payload.first_name, last_name:payload.last_name
+      @guest
   end
 
   def self.signin(phone_mobile, pin_c, us_state_id)

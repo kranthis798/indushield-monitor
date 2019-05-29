@@ -11,7 +11,12 @@ class Vendor < ApplicationRecord
 	 	#                     pin:payload.vendor_pin_c, us_state_id:us_state_id
 	 	record = create! phone_num:payload.phone_mobile, pin:payload.vendor_pin_c, phone_verified: true, us_state_id:us_state_id, status:payload.status
 	    #Link to Company
-	    record.companies << Company.find(company_id)
+	    ext = record.companies.where(id:company_id)
+		if ext.present?
+			p "already mapped"
+		else
+   		  record.companies << Company.find(company_id)
+		end
 	    record
 	end
 	def self.update_register(registrant_payload)
@@ -20,7 +25,12 @@ class Vendor < ApplicationRecord
 		@vendor.update! first_name:payload.first_name, last_name:payload.last_name, email:payload.email
 		#Link to Vendor Agency
 		if payload.vendor_company_id.present?
-			@vendor.vendor_agencies << VendorAgency.find(payload.vendor_company_id)
+			ext = @vendor.vendor_agencies.where(id:payload.vendor_company_id)
+			if ext.present?
+				p "already mapped"
+			else
+				@vendor.vendor_agencies << VendorAgency.find(payload.vendor_company_id)
+			end
 	  	end
 	  	@vendor
 	end
