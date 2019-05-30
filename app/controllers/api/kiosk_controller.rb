@@ -147,24 +147,26 @@ class Api::KioskController < Api::ApiController
 	def get_company_agreements
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 		device_info = Device.find(device_id)
-		if params[:vendor_id]
-			@vendor = Vendor.find(params[:vendor_id])
-			@signed_agreements = @vendor.company_agreements
-			@updated_agreements = ActiveRecord::Base.connection.execute("SELECT company_agreements.* FROM company_agreements INNER JOIN company_agreements_vendors ON company_agreements.id = company_agreements_vendors.company_agreement_id WHERE company_agreements_vendors.vendor_id=#{params[:vendor_id]} and date_signed<updated_at")
-			@up_agreements = []
-			@signed_agreements.each do |updated|
-				@up_agreements << updated.id
+		agreements = []
+		if params[:type].try(:downcase) == 'vendor'
+			if params[:vendor_id]
+				@vendor = Vendor.find(params[:vendor_id])
+				@signed_agreements = @vendor.company_agreements
+				@updated_agreements = ActiveRecord::Base.connection.execute("SELECT company_agreements.* FROM company_agreements INNER JOIN company_agreements_vendors ON company_agreements.id = company_agreements_vendors.company_agreement_id WHERE company_agreements_vendors.vendor_id=#{params[:vendor_id]} and date_signed<updated_at")
+				@up_agreements = []
+				@signed_agreements.each do |updated|
+					@up_agreements << updated.id
+				end
+				all_agreements = CompanyAgreement.where(company_id:device_info.company_id).where.not(id: @up_agreements)
+				@updated_agreements.each do |updated|
+					agreements << updated
+				end
+				all_agreements.each do |all|
+					agreements << all
+				end
+			else
+				agreements = CompanyAgreement.where(company_id:device_info.company_id)
 			end
-			all_agreements = CompanyAgreement.where(company_id:device_info.company_id).where.not(id: @up_agreements)
-			agreements = []
-			@updated_agreements.each do |updated|
-				agreements << updated
-			end
-			all_agreements.each do |all|
-				agreements << all
-			end
-		else
-			agreements = CompanyAgreement.where(company_id:device_info.company_id)
 		end
 		render json: {agreements: agreements}, status: :ok
 	rescue => e
