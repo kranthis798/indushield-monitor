@@ -66,7 +66,7 @@ class Api::KioskController < Api::ApiController
 		    end
 		    render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
 		else
-	    	render json: {message: "ERROR! You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
+	    	render json: {message: "You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
 	    end
 	rescue => e
   		render json: {message: e.message}, status: 500
@@ -86,10 +86,10 @@ class Api::KioskController < Api::ApiController
 					render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:[], type:registrant_type}, status: 200
 				end
 	    	else
-	    		render json: {message: "ERROR! Invaid Phone number / PIN"}, status: 400
+	    		render json: {message: "Invaid Phone number / PIN"}, status: 400
 	    	end
 	    else
-	    	render json: {message: "ERROR! You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
+	    	render json: {message: "You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
 	    end
 	rescue => e
   		render json: {message: e.message}, status: 500
@@ -126,10 +126,10 @@ class Api::KioskController < Api::ApiController
 	    		@visitor.update! pin:payload['vendor_pin_c']
 	    		render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
 	    	else
-	    		render json: {message: "ERROR! Invaid Phone number"}, status: 400
+	    		render json: {message: "Invaid Phone number"}, status: 400
 	    	end
 	    else
-	    	render json: {message: "ERROR! You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
+	    	render json: {message: "You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
 	    end
 	rescue => e
   		render json: {message: e.message}, status: 500
@@ -220,13 +220,13 @@ class Api::KioskController < Api::ApiController
 	end
 
 	def validate_QR
-		@visit = Visit.find_by_qrcode_id(params[:qrcode])
+		@visit = Visit.find_by_qrcode_id_and_qr_used(params[:qrcode],0)
 		if @visit.present?
 			register_class = @visit.visitor_type == "Vendor" ? Vendor : Guest
 			visitor_info = register_class.find(@visit.visitor_id)
 			render json: {visit:@visit.try(:kiosk_payload), visitor:visitor_info.try(:kiosk_payload)}, status: :ok
 		else
-	    	render json: {message: "ERROR! Invalid QR Code"}, status: 400
+	    	render json: {message: "Invalid QR Code"}, status: 400
 	    end
 	rescue => e
   		render json: {message: e.message}, status: 500
@@ -235,10 +235,10 @@ class Api::KioskController < Api::ApiController
 	def signout
 		@visit = Visit.find_by_qrcode_id(params[:qrcode])
 		if @visit.present?
-			@visit.update! end_time:event_time_hhmm(params[:event_time]), end_date_time:params[:event_time]
+			@visit.update! end_time:event_time_hhmm(params[:event_time]), end_date_time:params[:event_time], qr_used:1
 			render json: {visit:@visit.try(:kiosk_payload)}, status: :ok
 		else
-	    	render json: {message: "ERROR! Invalid QR Code"}, status: 400
+	    	render json: {message: "Invalid QR Code"}, status: 400
 	    end
 
 	rescue => e
@@ -332,7 +332,7 @@ class Api::KioskController < Api::ApiController
          @type = nil
       end
     else
-      msg = "ERROR! No State ID available. phone: #{phone}, is_type #{is_type}"
+      msg = "No State ID available. phone: #{phone}, is_type #{is_type}"
     end
   end
 
