@@ -96,7 +96,11 @@ class Api::KioskController < Api::ApiController
 	    registrant_type = params[:type].try(:downcase)
     	register_class = registrant_type == "vendor" ? Vendor : Guest
     	@visitor = register_class.update_register(payload)
-    	render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
+    	if registrant_type=="vendor"
+    		render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
+		else
+			render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:[], type:registrant_type}, status: 200
+		end
 	rescue => e
   		render json: {message: e.message}, status: 500
 	end		
