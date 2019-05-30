@@ -105,9 +105,9 @@ class Api::MobileController < Api::ApiController
 	    qrcode_id = SecureRandom.uuid+"-"+time_millis.to_s
 	    @visit = Visit.create! visitor_type:ivisitor_type,visit_entry_type:visit_entry_type,visitor_id:current_visitor.id,person_name:payload['person_name'],tentative_datetime: payload['tentative_datetime'],company_id:payload['company_id'],department_id:payload['department_id'],visit_status: :pre_visit, qrcode_id:qrcode_id,triggered_by: 'Mobile', send_message: payload['send_message'], person_contact: payload['person_contact'],triggered_by_os: payload['triggered_by_os'],device_id:1
 		msg = "#{visitor_type} will be visiting on #{payload['tentative_datetime']} "
+		VisitNote.create! visit_id:@visit.id, before_visit:payload['visit_notes']
 		if payload['visit_notes']
-			msg = payload['visit_notes']
-			VisitNote.create! visit_id:@visit.id, before_visit:payload['visit_notes']
+			msg = Base64.decode64(payload['visit_notes'])
 		end
 		if payload['send_message']
 			if payload['person_contact'].match(URI::MailTo::EMAIL_REGEXP).present?
@@ -130,8 +130,16 @@ class Api::MobileController < Api::ApiController
 
 	def update_notes
 		notes = VisitNote.find(params[:notes_id])
-		notes.update! before_visit: params[:before_visit], after_visit: params[:after_visit]
-		render json: {visit_notes:notes}, status: :ok
+		if notes.present?
+			if params[:notes_type]=="before"
+				notes.update! before_visit: params[:notes_content]
+			else
+				notes.update! after_visit: params[:notes_content]
+			end
+			render json: {visit_notes:notes}, status: :ok
+		else
+			render json: {message: "ERROR! Invaid Notes"}, status: 400
+		end
 	rescue => e
   		render json: {message: e.message}, status: 500
 	end	

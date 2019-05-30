@@ -1618,15 +1618,16 @@
                 "notes_id": {
                   "type": "integer"
                 },
-                "before_visit": {
+                "notes_content": {
                   "type": "string"
                 },
-                "after_visit": {
+                "notes_type": {
                   "type": "string"
                 }
               },
               "required": [
-                "notes_id"
+                "notes_id",
+                "notes_type"
               ]
             }
           }

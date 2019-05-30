@@ -338,10 +338,10 @@ describe 'Mobile Apps API' do
         type: :object,
          properties: {
             notes_id: { type: :integer },
-            before_visit: {type: :string},
-            after_visit: { type: :string }          
+            notes_content: {type: :string},
+            notes_type: { type: :string }          
         },
-        required: [ 'notes_id']
+        required: [ 'notes_id', 'notes_type']
         }
 
         response '200', 'Success' do
