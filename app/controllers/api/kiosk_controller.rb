@@ -80,7 +80,11 @@ class Api::KioskController < Api::ApiController
 	    	register_class = registrant_type == "vendor" ? Vendor : Guest
 	    	@visitor = register_class.signin(params[:phone_mobile], params[:pin_c], us_state_id)
 	    	if @visitor.present?
-	    		render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
+	    		if registrant_type=="vendor"
+		    		render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:@visitor.vendor_agencies, type:registrant_type}, status: 200
+				else
+					render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:[], type:registrant_type}, status: 200
+				end
 	    	else
 	    		render json: {message: "ERROR! Invaid Phone number / PIN"}, status: 400
 	    	end
