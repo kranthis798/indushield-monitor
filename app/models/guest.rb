@@ -6,15 +6,13 @@ class Guest < ApplicationRecord
 
   def self.register(registrant_payload, us_state_id, company_id)
     payload = OpenStruct.new registrant_payload
-    # record = create! first_name:payload.first_name, last_name:payload.last_name, phone_num:payload.phone_mobile,status:payload.status_c,
-    #                  pin:payload.pin_c, us_state_id:us_state_id, guest_type:payload.visitor_type_c
-    record = create! phone_num:payload.phone_mobile, first_name:payload.first_name, last_name:payload.last_name, status:payload.status, pin:payload.pin_c, us_state_id:us_state_id, guest_type:payload.visitor_type_c
+    record = create! phone_num:payload.phone_mobile, status:payload.status, pin:payload.vendor_pin_c, us_state_id:us_state_id
     #Link to Company
     ext = record.companies.where(id:company_id)
     if ext.present?
       p "already mapped"
     else
-        record.companies << Company.find(company_id)
+      record.companies << Company.find(company_id)
     end
     record
   end
@@ -37,11 +35,11 @@ class Guest < ApplicationRecord
   end  
 
   def self.kiosk_fields
-    %w(id first_name last_name phone_num updated_at status)
+      %w(id first_name last_name phone_num updated_at status pin)
   end
 
   def kiosk_payload
-    serializable_hash.select do |k,v|; Guest.kiosk_fields.include?(k); end
+      serializable_hash.select do |k,v|; Guest.kiosk_fields.include?(k); end
   end
 
 

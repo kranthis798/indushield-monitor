@@ -58,7 +58,6 @@ class Api::KioskController < Api::ApiController
 	    	is_guest = (params[:type].try(:downcase) == "guest")
 	    	registrant_type = params[:type].try(:downcase)
 	    	find_visitor payload['phone_mobile'], us_state_id, is_guest
-
 	    	if @visitor.nil?
 		        logger.info "Can't find registrant in this US State. OK to continue with new registration"
 		        @visitor = do_register(registrant_type, us_state_id, payload, comp_id)
@@ -367,7 +366,7 @@ class Api::KioskController < Api::ApiController
 
     if type == nil || type.empty?
       "No visitor type specified."
-    elsif type.casecmp("vendor") != 0 && type.casecmp("visitor") != 0
+    elsif type.casecmp("vendor") != 0 && type.casecmp("guest") != 0
       "Invalid visitor type provided."
     end
 
