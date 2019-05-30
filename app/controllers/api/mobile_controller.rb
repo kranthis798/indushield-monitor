@@ -1,5 +1,7 @@
 class Api::MobileController < Api::ApiController
 	require 'uri'
+	require 'base64'
+	
 	before_action :authorize_request, :except => [:signin, :forgot_pin, :reset_pin]
 	attr_reader :current_visitor, :visitor_type
 	
