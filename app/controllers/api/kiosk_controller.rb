@@ -222,7 +222,9 @@ class Api::KioskController < Api::ApiController
 	end
 
 	def validate_QR
-		@visit = Visit.find_by_qrcode_id_and_qr_used(params[:qrcode],0)
+		registrant_type = params[:type].try(:downcase)
+    	register_class = registrant_type == "vendor" ? :Vendor : :Guest
+		@visit = Visit.find_by_qrcode_id_and_qr_used_and_visitor_type(params[:qrcode],0,register_class)
 		if @visit.present?
 			register_class = @visit.visitor_type == "Vendor" ? Vendor : Guest
 			visitor_info = register_class.find(@visit.visitor_id)

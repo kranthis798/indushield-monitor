@@ -813,6 +813,12 @@
             "in": "query",
             "type": "string",
             "required": true
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "type": "string",
+            "required": true
           }
         ],
         "responses": {

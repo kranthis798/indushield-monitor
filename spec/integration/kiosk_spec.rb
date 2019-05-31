@@ -426,6 +426,7 @@ describe 'Kiosk API' do
       parameter name: :auth, in: :header, type: :string, required: true
       parameter name: :device_id, in: :header, type: :string, required: true
       parameter name: :qrcode, in: :query, type: :string, required: true
+      parameter name: :type, in: :query, type: :string, required: true
       response '200', 'Success' do
            schema type: :array,
           properties: {
