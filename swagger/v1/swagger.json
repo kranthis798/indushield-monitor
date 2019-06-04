@@ -185,6 +185,12 @@
             "required": true
           },
           {
+            "name": "type",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
             "name": "input",
             "in": "body",
             "schema": {

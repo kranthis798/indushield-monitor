@@ -92,6 +92,7 @@ describe 'Kiosk API' do
         consumes 'application/json'
         parameter name: :auth, in: :header, type: :string, required: true
         parameter name: :device_id, in: :header, type: :string, required: true
+        parameter name: :type, in: :query, type: :string, required: true
         parameter name: :input, in: :body, schema: {
         type: :object,
         properties: {

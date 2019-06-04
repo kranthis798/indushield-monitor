@@ -26,7 +26,9 @@ class Api::KioskController < Api::ApiController
 	
   	def verify_phone
   		phone_num =  params.require(:phone_mobile).gsub(/-/,'')
-  		find_visitor_phone phone_num, true, true
+  		registrant_type = params[:type].try(:downcase)
+    	register_class = registrant_type == "vendor" ? Vendor : Guest
+    	@visitor = register_class.find_by_phone_num(params[:phone_mobile])
   		if @visitor.present?
   			render json: {message: "Phone number already verified"}, status: 400
   		else
@@ -353,36 +355,6 @@ class Api::KioskController < Api::ApiController
 
   def find_vendor(phone, state_id)
     Vendor.find_by_phone_num_and_us_state_id(phone, state_id)
-  end
-
-  def find_visitor_phone(phone, is_type, search_both_types=false)
-      is_type = is_type === true ? "guest" : is_type === false ? "vendor" : is_type
-      if is_type == "guest"
-        @type = :guest
-        @visitor = find_guest_phone(phone)
-        if @visitor.nil? && search_both_types
-          @visitor = find_vendor_phone(phone)
-          @type = :vendor
-        end
-      else
-        @type = :vendor
-        @visitor = find_vendor_phone(phone)
-        if @visitor.nil? && search_both_types
-          @visitor = find_guest_phone(phone)
-          @type = :guest
-        end
-      end
-      if @visitor.nil?
-         @type = nil
-      end
-  	end
-
-  def find_guest_phone(phone)
-    Guest.find_by_phone_num(phone)
-  end
-
-  def find_vendor_phone(phone)
-    Vendor.find_by_phone_num(phone)
   end
 
   def validate(payload, type)
