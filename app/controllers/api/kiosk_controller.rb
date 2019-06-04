@@ -180,7 +180,7 @@ class Api::KioskController < Api::ApiController
 			if params[:vendor_id]
 				@vendor = Vendor.find(params[:vendor_id])
 				@signed_agreements = @vendor.company_agreements
-				@updated_agreements = ActiveRecord::Base.connection.execute("SELECT company_agreements.* FROM company_agreements INNER JOIN company_agreements_vendors ON company_agreements.id = company_agreements_vendors.company_agreement_id WHERE company_agreements_vendors.vendor_id=#{params[:vendor_id]} and date_signed<updated_at")
+				@updated_agreements = ActiveRecord::Base.connection.execute("SELECT company_agreements.* FROM company_agreements INNER JOIN company_agreements_vendors ON company_agreements.id = company_agreements_vendors.company_agreement_id WHERE company_agreements_vendors.vendor_id=#{params[:vendor_id]} and company_agreements.company_id=#{device_info.company_id} and date_signed<updated_at")
 				@up_agreements = []
 				@signed_agreements.each do |updated|
 					@up_agreements << updated.id

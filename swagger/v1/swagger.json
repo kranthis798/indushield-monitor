@@ -1574,7 +1574,7 @@
           },
           {
             "name": "company_id",
-            "in": "header",
+            "in": "query",
             "type": "string",
             "required": true
           }

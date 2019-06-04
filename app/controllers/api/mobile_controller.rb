@@ -69,7 +69,8 @@ class Api::MobileController < Api::ApiController
 	end
 
 	def get_agreements
-		com_agreements = current_visitor.company_agreements.where(company_id: params['company_id']) 
+		com_agreements = ActiveRecord::Base.connection.execute("SELECT company_agreements.*, company_agreements_vendors.date_signed as accepted_date FROM company_agreements INNER JOIN company_agreements_vendors ON company_agreements.id = company_agreements_vendors.company_agreement_id WHERE company_agreements_vendors.vendor_id=#{current_visitor.id} and company_agreements.company_id=#{params['company_id']}")
+		#current_visitor.company_agreements.where(company_id: params['company_id']) 
 		render json: {agreements:com_agreements}, status: 200
 	rescue => e
   		render json: {message: e.message}, status: 500
