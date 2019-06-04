@@ -1145,11 +1145,15 @@
                 },
                 "pin_c": {
                   "type": "string"
+                },
+                "otp": {
+                  "type": "string"
                 }
               },
               "required": [
                 "phone_mobile",
-                "pin_c"
+                "pin_c",
+                "otp"
               ]
             }
           }
