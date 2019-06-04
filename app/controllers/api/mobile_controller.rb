@@ -29,7 +29,7 @@ class Api::MobileController < Api::ApiController
 	  	 	msg = "Your One-time PIN is: #{otp}"
 	  	 	@visitor.update! reset_token:otp
 		  	Rails.application.config.twilio_client.send_sms(msg, phone_num)
-		  	render json: {otp: otp, message:"Verification code sent"}, status: :ok
+		  	render json: {message:"Verification code sent"}, status: :ok
 		end
   	rescue => e
   		render json: {message: e.message}, status: 500
@@ -48,7 +48,7 @@ class Api::MobileController < Api::ApiController
     			render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:[], type:registrant_type, auth_token:auth_token}, status: 200
 			end
     	else
-    		render json: {message: "ERROR! Invaid Phone number / PIN"}, status: 400
+    		render json: {message: "Invalid Phone number / PIN"}, status: 400
     	end
 	rescue => e
   		render json: {message: e.message}, status: 500
@@ -96,7 +96,7 @@ class Api::MobileController < Api::ApiController
     		@visitor.update! pin:params[:pin_c]
     		render json: {message:"Pin updated successfully"}, status: 200
     	else
-    		render json: {message: "ERROR! Invalid OTP"}, status: 400
+    		render json: {message: "Invalid OTP"}, status: 400
     	end
 	rescue => e
   		render json: {message: e.message}, status: 500
@@ -150,7 +150,7 @@ class Api::MobileController < Api::ApiController
 			end
 			render json: {visit_notes:notes}, status: :ok
 		else
-			render json: {message: "ERROR! Invaid Notes"}, status: 400
+			render json: {message: "Invaid Notes"}, status: 400
 		end
 	rescue => e
   		render json: {message: e.message}, status: 500
