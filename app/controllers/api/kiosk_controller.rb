@@ -26,11 +26,16 @@ class Api::KioskController < Api::ApiController
 	
   	def verify_phone
   		phone_num =  params.require(:phone_mobile).gsub(/-/,'')
-  		otp = rand.to_s[2..7]
-  		#device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
-  	 	msg = "Your One-time PIN is: #{otp}"
-	  	Rails.application.config.twilio_client.send_sms(msg, phone_num)
-	  	render json: {otp: otp, message:"Verification code sent"}, status: :ok
+  		find_visitor_phone phone_num, true, true
+  		if @visitor.present?
+  			render json: {message: "Phone number already verified"}, status: 400
+  		else
+	  		otp = rand.to_s[2..7]
+	  		#device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
+	  	 	msg = "Your One-time PIN is: #{otp}"
+		  	Rails.application.config.twilio_client.send_sms(msg, phone_num)
+		  	render json: {otp: otp, message:"Verification code sent"}, status: :ok
+		end	  	
   	rescue => e
   		render json: {message: e.message}, status: 500
 	end
@@ -61,10 +66,12 @@ class Api::KioskController < Api::ApiController
 	    	if @visitor.nil?
 		        logger.info "Can't find registrant in this US State. OK to continue with new registration"
 		        @visitor = do_register(registrant_type, us_state_id, payload, comp_id)
+		        render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
 		    else
 		        logger.info "WARNING! Found existing registrant. Not creating a new one"
+		        render json: {message: "Phone number already exists"}, status: 400
 		    end
-		    render json: {visitor:@visitor.try(:kiosk_payload), type:registrant_type}, status: 200
+		    
 		else
 	    	render json: {message: "You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
 	    end
@@ -346,6 +353,36 @@ class Api::KioskController < Api::ApiController
 
   def find_vendor(phone, state_id)
     Vendor.find_by_phone_num_and_us_state_id(phone, state_id)
+  end
+
+  def find_visitor_phone(phone, is_type, search_both_types=false)
+      is_type = is_type === true ? "guest" : is_type === false ? "vendor" : is_type
+      if is_type == "guest"
+        @type = :guest
+        @visitor = find_guest_phone(phone)
+        if @visitor.nil? && search_both_types
+          @visitor = find_vendor_phone(phone)
+          @type = :vendor
+        end
+      else
+        @type = :vendor
+        @visitor = find_vendor_phone(phone)
+        if @visitor.nil? && search_both_types
+          @visitor = find_guest_phone(phone)
+          @type = :guest
+        end
+      end
+      if @visitor.nil?
+         @type = nil
+      end
+  	end
+
+  def find_guest_phone(phone)
+    Guest.find_by_phone_num(phone)
+  end
+
+  def find_vendor_phone(phone)
+    Vendor.find_by_phone_num(phone)
   end
 
   def validate(payload, type)
