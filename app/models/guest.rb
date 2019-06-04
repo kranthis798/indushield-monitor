@@ -35,11 +35,13 @@ class Guest < ApplicationRecord
   end  
 
   def self.kiosk_fields
-      %w(id first_name last_name phone_num updated_at status pin)
+    %w(id first_name last_name phone_num updated_at status pin)
   end
 
   def kiosk_payload
-      serializable_hash.select do |k,v|; Guest.kiosk_fields.include?(k); end
+    payload = {id:id, first_name:first_name,last_name:last_name,phone_num: phone_num,
+           email: "",updated_at: updated_at,status: status,pin: pin}
+    payload
   end
 
 
