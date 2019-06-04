@@ -20,7 +20,9 @@ class Api::MobileController < Api::ApiController
 
 	def forgot_pin
   		phone_num =  params.require(:phone_mobile).gsub(/-/,'')
-  		find_visitor phone_num, true, true
+  		registrant_type = "vendor"
+    	register_class = registrant_type == "vendor" ? Vendor : Guest
+    	@visitor = register_class.find_by_phone_num(params[:phone_mobile])
   		if @visitor.nil?
   			render json: {message: "Invalid phone number"}, status: :not_found
   		else
