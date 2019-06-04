@@ -89,7 +89,8 @@ class Api::MobileController < Api::ApiController
 	end		
 
 	def reset_pin
-		registrant_type = params[:type].try(:downcase)
+		registrant_type = "vendor"
+		#params[:type].try(:downcase)
     	register_class = registrant_type == "vendor" ? Vendor : Guest
     	@visitor = register_class.find_by_phone_num_and_reset_token(params[:phone_mobile],params[:otp])
     	if @visitor.present?
