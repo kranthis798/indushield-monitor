@@ -675,6 +675,60 @@
         }
       }
     },
+    "/api/kiosk/forgot_pin": {
+      "post": {
+        "summary": "Validate Phone number",
+        "tags": [
+          "Kiosk"
+        ],
+        "consumes": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "auth",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "device_id",
+            "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "input",
+            "in": "body",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "phone_mobile": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "phone_mobile"
+              ]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Verification code sent"
+          },
+          "404": {
+            "description": "Invalid Request"
+          }
+        }
+      }
+    },
     "/api/kiosk/reset_pin": {
       "post": {
         "summary": "Reset pin of visitor",
@@ -694,6 +748,12 @@
           {
             "name": "device_id",
             "in": "header",
+            "type": "string",
+            "required": true
+          },
+          {
+            "name": "type",
+            "in": "query",
             "type": "string",
             "required": true
           },

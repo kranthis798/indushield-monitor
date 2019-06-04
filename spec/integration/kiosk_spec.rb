@@ -356,6 +356,35 @@ describe 'Kiosk API' do
     end
   end
 
+  path '/api/kiosk/forgot_pin' do
+
+    post 'Validate Phone number' do
+        tags 'Kiosk'
+        consumes 'application/json'
+        parameter name: :auth, in: :header, type: :string, required: true
+        parameter name: :device_id, in: :header, type: :string, required: true
+        parameter name: :type, in: :query, type: :string, required: true
+        parameter name: :input, in: :body, schema: {
+        type: :object,
+        properties: {
+          phone_mobile: { type: :string }
+        },
+        required: [ 'phone_mobile' ]
+        }
+
+        response '200', 'Verification code sent' do
+          let(:json) { {otp:otp, message:"Verification code sent"} }
+          run_test!
+        end
+
+        response '404', 'Invalid Request' do
+           let(:json) { 'Invalid Phone number' }
+          run_test!
+        end
+    end
+  end
+
+
   path '/api/kiosk/reset_pin' do
 
     post 'Reset pin of visitor' do
@@ -363,6 +392,7 @@ describe 'Kiosk API' do
         consumes 'application/json'
         parameter name: :auth, in: :header, type: :string, required: true
         parameter name: :device_id, in: :header, type: :string, required: true
+        parameter name: :type, in: :query, type: :string, required: true
         parameter name: :input, in: :body, schema: {
         type: :object,
          properties: {

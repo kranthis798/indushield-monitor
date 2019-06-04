@@ -42,6 +42,25 @@ class Api::KioskController < Api::ApiController
   		render json: {message: e.message}, status: 500
 	end
 
+	def forgot_pin
+  		phone_num =  params.require(:phone_mobile).gsub(/-/,'')
+  		registrant_type = params[:type].try(:downcase)
+    	register_class = registrant_type == "vendor" ? Vendor : Guest
+    	@visitor = register_class.find_by_phone_num(params[:phone_mobile])
+  		if @visitor.nil?
+  			render json: {message: "Invalid phone number"}, status: :not_found
+  		else
+	  		otp = rand.to_s[2..7]
+	  		#device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
+	  	 	msg = "Your One-time PIN is: #{otp}"
+	  	 	@visitor.update! reset_token:otp
+		  	Rails.application.config.twilio_client.send_sms(msg, phone_num)
+		  	render json: {otp:otp, message:"Verification code sent"}, status: :ok
+		end
+  	rescue => e
+  		render json: {message: e.message}, status: 500
+	end
+
 	def get_vendor_companies
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 		device_info = Device.find(device_id)
