@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_30_121824) do
+ActiveRecord::Schema.define(version: 2019_06_04_093155) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,7 @@ ActiveRecord::Schema.define(version: 2019_05_30_121824) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "guest_type"
+    t.integer "reset_token"
     t.index ["us_state_id"], name: "index_guests_on_us_state_id"
   end
 
@@ -259,6 +260,7 @@ ActiveRecord::Schema.define(version: 2019_05_30_121824) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "us_state_id"
+    t.integer "reset_token"
     t.index ["us_state_id"], name: "index_vendors_on_us_state_id"
   end
 

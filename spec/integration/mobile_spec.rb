@@ -43,7 +43,7 @@ describe 'Mobile Apps API' do
         }
 
         response '200', 'Verification code sent' do
-          let(:json) { {otp: otp, message:"Verification code sent"} }
+          let(:json) { {message:"Verification code sent"} }
           run_test!
         end
 
@@ -63,9 +63,10 @@ describe 'Mobile Apps API' do
         type: :object,
         properties: {
           phone_mobile: { type: :string },
-          pin_c: {type: :string}
+          pin_c: {type: :string},
+          otp: {type: :string}
         },
-        required: [ 'phone_mobile', 'pin_c' ]
+        required: [ 'phone_mobile', 'pin_c', 'otp' ]
         }
 
         response '200', 'Pin updated successfully' do
@@ -74,7 +75,7 @@ describe 'Mobile Apps API' do
         end
 
         response '404', 'Invalid Request' do
-           let(:json) { 'Invalid Phone number' }
+           let(:json) { 'Invalid OTP' }
           run_test!
         end
     end

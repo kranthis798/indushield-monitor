@@ -27,6 +27,7 @@ class Api::MobileController < Api::ApiController
 	  		otp = rand.to_s[2..7]
 	  		#device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 	  	 	msg = "Your One-time PIN is: #{otp}"
+	  	 	@visitor.update! reset_token:otp
 		  	Rails.application.config.twilio_client.send_sms(msg, phone_num)
 		  	render json: {otp: otp, message:"Verification code sent"}, status: :ok
 		end
@@ -88,13 +89,14 @@ class Api::MobileController < Api::ApiController
 	end		
 
 	def reset_pin
-		is_guest = (params[:type].try(:downcase) == "visitor")
-    	find_visitor params[:phone_mobile], true, true
+		registrant_type = params[:type].try(:downcase)
+    	register_class = registrant_type == "vendor" ? Vendor : Guest
+    	@visitor = register_class.find_by_phone_num_and_reset_token(params[:phone_mobile],params[:otp])
     	if @visitor.present?
     		@visitor.update! pin:params[:pin_c]
     		render json: {message:"Pin updated successfully"}, status: 200
     	else
-    		render json: {message: "ERROR! Invaid Phone number"}, status: 400
+    		render json: {message: "ERROR! Invalid OTP"}, status: 400
     	end
 	rescue => e
   		render json: {message: e.message}, status: 500
