@@ -1,6 +1,7 @@
 class Api::MobileController < Api::ApiController
 	require 'uri'
 	require 'base64'
+	require 'time'
 
 	before_action :authorize_request, :except => [:signin, :forgot_pin, :reset_pin]
 	attr_reader :current_visitor, :visitor_type
@@ -71,7 +72,20 @@ class Api::MobileController < Api::ApiController
 	def get_agreements
 		com_agreements = ActiveRecord::Base.connection.execute("SELECT company_agreements.*, company_agreements_vendors.date_signed as accepted_date FROM company_agreements INNER JOIN company_agreements_vendors ON company_agreements.id = company_agreements_vendors.company_agreement_id WHERE company_agreements_vendors.vendor_id=#{current_visitor.id} and company_agreements.company_id=#{params['company_id']}")
 		#current_visitor.company_agreements.where(company_id: params['company_id']) 
-		render json: {agreements:com_agreements}, status: 200
+		agreements = []
+		com_agreements.each do |com_agr|
+			sub_agrements = {}
+			sub_agrements['id'] = com_agr['id']
+			sub_agrements['title'] = com_agr['title']
+			sub_agrements['description'] = com_agr['description']
+			sub_agrements['url'] = com_agr['url']
+			sub_agrements['company_id'] = com_agr['company_id']
+			sub_agrements['created_at'] = Time.parse(com_agr['created_at']).utc
+			sub_agrements['updated_at'] = Time.parse(com_agr['updated_at']).utc
+			sub_agrements['accepted_date'] = Time.parse(com_agr['accepted_date']).utc
+			agreements << sub_agrements
+		end
+		render json: {agreements:agreements}, status: 200
 	rescue => e
   		render json: {message: e.message}, status: 500
 	end
