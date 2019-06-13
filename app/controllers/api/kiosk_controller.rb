@@ -70,6 +70,17 @@ class Api::KioskController < Api::ApiController
   		render json: {message: e.message}, status: 500
 	end	
 
+	def register_vendor_agency
+		status = :active
+		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
+		msg, us_state_id, comp_id = get_company_us_state_device(device_id)
+		agency = VendorAgency.create! name:params[:company_name],address1: params[:company_address],city:params[:company_city], zip:params[:company_zip], us_state_id:us_state_id, status: status, phone_num: params[:company_phone], email: params[:company_email]
+		agency.companies << Company.find(comp_id)
+		render json: {vendor_company: agency}, status: :ok
+	rescue => e
+  		render json: {message: e.message}, status: 500
+	end
+
 	def register_visitor
 		device_id = request.headers["device_id"] || request.headers["HTTP_DEVICE_ID"]
 	    payload = params[:registrant].is_a?(String) ? JSON.parse(params[:registrant]) : params[:registrant]

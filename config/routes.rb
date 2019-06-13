@@ -26,6 +26,7 @@ Rails.application.routes.draw do
     post "/kiosk/process_qr_events", to:"kiosk#process_qr_events"
     get "/kiosk/signout", to:"kiosk#signout"
     post "/kiosk/forgot_pin", to:"kiosk#forgot_pin"
+    post "/kiosk/register_company", to:"kiosk#register_vendor_agency"
 
     #mobile API
     post "/mobile/sign_in", to:"mobile#signin"

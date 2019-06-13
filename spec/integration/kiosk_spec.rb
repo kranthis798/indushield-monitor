@@ -185,6 +185,39 @@ describe 'Kiosk API' do
     end
   end
 
+  path '/api/kiosk/register_company' do
+
+    post 'Register new vendor company' do
+        tags 'Kiosk'
+        consumes 'application/json'
+        parameter name: :auth, in: :header, type: :string, required: true
+        parameter name: :device_id, in: :header, type: :string, required: true
+        parameter name: :input, in: :body, schema: {
+        type: :object,
+         properties: {
+            company_name: {type: :string},
+            company_address: { type: :string },
+            company_city: {type: :string},
+            company_zip: { type: :string },
+            company_phone: {type: :string},
+            company_email: {type: :string}
+          },
+        
+        required: [ 'company_name']
+        }
+
+        response '200', 'Success' do
+          let(:json) { {visitor: {first_name:'', last_name:'', phone_num:''}, type:"Visitor/Vendor"} }
+          run_test!
+        end
+
+        response '404', 'Invalid Request' do
+           let(:json) { 'Missing Visitor id' }
+          run_test!
+        end
+    end
+  end
+
   path '/api/kiosk/set_personal_details' do
 
     post 'Set/update personal details of visitor/vendor' do
