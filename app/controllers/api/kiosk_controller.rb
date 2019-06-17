@@ -125,7 +125,7 @@ class Api::KioskController < Api::ApiController
 					render json: {visitor:@visitor.try(:kiosk_payload), vendor_company:[], type:registrant_type}, status: 200
 				end
 	    	else
-	    		render json: {message: "Invaid Phone number / PIN"}, status: 400
+	    		render json: {message: "Invalid Phone number / PIN"}, status: 400
 	    	end
 	    else
 	    	render json: {message: "You must pass a valid device_id in the header. You passed #{device_id}"}, status: 400
